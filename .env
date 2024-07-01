@@ -1,0 +1,1 @@
+GLOBAL_PATH="/devMobile.github.io"
