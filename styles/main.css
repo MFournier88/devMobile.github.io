@@ -1,28 +1,75 @@
+:root{
+    --purple-1: #e0cdf5;
+    --purple-3: #ae77ec;
+    --purple-6: #8232dd;
+    --purple-7: #7518df;
+    --purple-8: #6513c2;
+
+    
+    --rightNavSize: 250px;
+
+    --darkbackground-color: #272822;
+}
 body{
     padding-bottom:0px;
     margin-bottom:0px;
     height:100%;
 }
-html{
-    height:100%
+.exercice{
+    border: 6px solid var(--purple-3);
+    padding: 20px;
+    background-color: var(--purple-1);
+    color:var(--purple-7);
+}
+.exercice h2{
+    color: var(--purple-8);
+    border-bottom: 2px solid var(--purple-7);
+}
+i{
+    font-weight: 700;
+}
+.inline-code{
+    background-color: var(--darkbackground-color);
+    color: white;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+.inline-code .cmd{
+    color:#e6db74
+}
+.inline-code .option{
+    color:rgb(255, 25, 25)
+}
+.inline-code .jskey {
+    color: #66d9ef;
+}
+.inline-code.jskey {
+    color: #66d9ef;
 }
 .footer {
     background-color: #f8f9fa;
     padding: 20px;
     text-align: center;
-    width: calc(100% - 250px);
+    width: calc(100% - var(--rightNavSize));
     
 }
-
+html{
+    height:100%
+}
 /* Adjust main content to align properly */
 .main-content {
     flex:1;
-    margin-right: 250px; /* Adjust based on navbar width + margin */
+    margin-right: var(--rightNavSize); /* Adjust based on navbar width + margin */
     /* For smaller screens, adjust margin as needed */
     transition: margin-right 0.3s ease;
 }
+.main-content h1{
+    text-align: center;
+    
+}
 .navbar.fixed-top{
-    right: 250px; /* Align to the right side */
+    right: var(--rightNavSize); /* Align to the right side */
 }
 pre {
     margin: 0;
@@ -41,9 +88,16 @@ pre code {
     padding: 0px 20px;
    
 }
+.formatOneLine span{
+    padding: 0 10px 0 0;
+}
 .safe-area-container{
-    padding-top: 56px; /* Adjust this value to match your navbar height */
+    padding-top: 80px; /* Adjust this value to match your navbar height */
+    padding-bottom: 60px;
     position: relative;
+}
+.section{
+    margin: 80px 0;
 }
 .vertical-brand{
     height: 56px; /* Set the height of the element */
@@ -58,7 +112,7 @@ pre code {
 }
 /* Ensure the vertical navbar is styled correctly */
 .vertical-navbar {
-    width: 250px; /* Adjust width as needed */
+    width: var(--rightNavSize); /* Adjust width as needed */
     position: fixed;
     top: 0; /* Height of the main horizontal navbar */
     bottom: 0;
@@ -66,6 +120,7 @@ pre code {
     background-color: #f8f9fa; /* Background color */
     overflow-y: auto; /* Enable scrolling */
 }
+ 
 
 /* Flexbox setup */
 .wrapper {

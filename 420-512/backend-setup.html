@@ -1,0 +1,262 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <ol>
+                    <li>Créez vous un dossier nommez CRUD et ouvrez le dans VSCode</li>
+                    <li><span class="inline-code"><span class="cmd">npm init</span>  <span class="option">-y</span></span> : démarrer un nouveau projet Node.js, en sautant les étapes interactives de configuration grâce à l'acceptation automatique des valeurs par défaut.</li>
+                    <li>Pour pouvoir utiliser  `import` et `export` ainsi que permettre du redémarrage automatique modifier ces 2 lignes dans le fichier package.json
+                        <pre><code class="language-json">
+<!--                     -->"type": "module",
+<!--                     -->"scripts": {
+<!--                     -->    "dev": "npx nodemon app.js"
+<!--                     -->},
+                        </code></pre>
+                    </li>
+                    <li><span class="inline-code"><span class="cmd">npm install</span> <span class="option">--save-dev</span> nodemon</span> : On utilisera cette librairie pour redémarrer automatiquement le </li>
+                    <li><span class="inline-code"><span class="cmd">npm i </span>msql2</span> :  mysql2 est une librairie pour Node.js qui permet aux applications Node.js d'interagir avec des bases de données MySQL.  </li>
+                </ol>
+                
+                <hr class="section">
+
+                <h2>Variables d'environnement</h2>
+                <p>Les variables d'environnement sont utilisées pour sécuriser et paramétrer les applications sans stocker directement ces informations dans le code source. Elles permettent de séparer la configuration des applications (comme les clés d'API, les identifiants de base de données, etc.) de leur logique métier, facilitant ainsi la gestion et le déploiement dans différents environnements (développement, test, production). En outre, l'utilisation de variables d'environnement améliore la sécurité en évitant l'exposition de données sensibles dans le code source et en permettant des ajustements rapides et sûrs de la configuration sans nécessiter de modifications de code.</p>
+                <h3>Préparation</h3>
+                <ol>
+                    <li>Créez un fichier appelé `.env`</li>
+                    <li>Ajoutez-y : 
+                    <pre><code class="language-html">
+<!--                -->MYSQL_HOST='127.0.0.1'
+<!--                -->MYSQL_USER='root'
+<!--                -->MYSQL_PASSWORD='`votre mdp`'
+<!--                -->MYSQL_DATABASE='`Le nom de votre db`'
+                    </code></pre>
+                    </li>
+                    <li><span class="inline-code"><span class="cmd">npm i </span>dotenv</span> :  installe la librairie qui saura gérer les variables d'environnement</li>
+                    <li>Lorsque vous voudrez utiliser des variables d'environnement il suffira d'ajouter ce code à votre fichier .js
+                        <pre><code class="language-js">
+<!--                -->import dotenv from 'dotenv'
+<!--                -->dotenv.config()
+                        </code></pre>
+                    </li>
+                    <li>Ensuite vous n'aurez qu'à préfixer les variables par process.env pour y avoir accès (Ex : process.env.MYSQL_HOST)</li>
+                </ol>
+                
+                <hr class="section">
+
+                <h2>Connexion à la bd</h2>
+                <p>Voici le code vous permettant de vous connecter à la bd. Vous devez au préalable avoir créé vos variables dans le fichier .env qui se situe à la racine du projet</p>
+                <pre><code class="language-js">
+<!--                -->import mysql from 'mysql2';
+<!--                -->import dotenv from 'dotenv';
+<!--                -->dotenv.config();
+<!--                -->const pool = mysql.createPool({
+<!--                -->    host: process.env.MYSQL_HOST,
+<!--                -->    user: process.env.MYSQL_USER,
+<!--                -->    password: process.env.MYSQL_PASSWORD,
+<!--                -->    database: process.env.MYSQL_DATABASE
+<!--                -->}).promise()
+                </code></pre>
+                <p>Tester en faisant un requête. Ajouter simplement le code suivant pour le test, puis retirer le :</p>
+                <pre><code class="language-js">
+<!--                -->const [resultat] = await pool.query("SELECT * FROM etudiants")
+<!--                -->console.log(resultat)
+                </code></pre>
+                
+                <hr class="section">
+
+                <h2>Promise</h2>
+                
+                <p>La page de <a href="https://www.w3schools.com/js/js_promise.asp">w3school</a> explique bien ce que c'est qu'une `promise`, mais voici ma traduction francaise :</p>
+                <p>Une `promise` est séparé en 2 parties: action et réaction.</p> 
+                <div class="container">
+                    <p><i>Action</i> : code qui peux prendre un certain temps.</p>
+                    <p><i>Réaction</i> : code qui doit attendre la fin de l'exécution pour s'effectuer.</p>
+                </div>
+                <pre><code class="language-js">
+<!--            -->let myPromise = new Promise(function(resolve, reject) {
+<!--            -->    // "action" (Peux prendre un certain temps)
+<!--            -->    
+<!--            -->        resolve(); // Fonction pour retourner un succès
+<!--            -->        myReject();  // Fonction pour retourner une erreur
+<!--            -->    });
+<!--            -->    
+<!--            -->    // "Réaction" (Doit attendre le retour de l'action)
+<!--            -->    myPromise.then(
+<!--            -->        function(value) { /* code effectué si action terminé avec resolve() */ },
+<!--            -->        function(error) { /* code effectué si action terminé avec reject()  */ }
+<!--            -->    );
+                </code></pre>
+                <p>À quoi ça sert d'avoir une séparation entre le code qui doit 
+                   être effectué avant et après la terminaison de l'action, car
+                   le code s'effectue de haut en bas? Dans le cas de code synchrone
+                   il est inutile d'utiliser des `promise`, mais il y a plusieurs 
+                   moments où vous serez obliger d'utiliser de l'asynchrone pour des raisons de performances.</p>
+
+                
+                <hr class="section">
+
+                <h2>Programmation asynchrone</h2>
+
+                <p>La programmation asynchrone est utilisée principalement pour améliorer l'efficacité et la réactivité des applications, en particulier dans des environnements où des opérations d'entrée-sortie (I/O) sont fréquentes. Voici quelques utilisations principales de la programmation asynchrone :</p>
+                <ol>
+                    <li><i>Gestion des Entrées/Sorties (I/O)</i> : Dans les applications web, les opérations telles que les requêtes réseau (API, base de données), la lecture/écriture de fichiers, et autres, peuvent prendre du temps. Utiliser des fonctions asynchrones permet à l'application de continuer à fonctionner pendant que ces opérations sont en cours, évitant ainsi le blocage du thread principal.</li>
+                    <li><i>Réactivité de l'Interface Utilisateur </i> : Dans les interfaces utilisateur (UI), les opérations longues, comme le traitement de données ou les calculs intensifs, peuvent rendre l'application non réactive si elles sont exécutées de manière synchrone. En rendant ces opérations asynchrones, l'UI reste fluide et réactive pour l'utilisateur.</li>
+                    <li><i>Traitement des Événements</i> : Dans les environnements où des événements peuvent se produire de manière asynchrone (par exemple, des clics utilisateur, des notifications), la programmation asynchrone permet de gérer efficacement ces événements sans interrompre le flux principal de l'application.</li>
+                    <li><i>Performances et Scalabilité</i> : En permettant à plusieurs tâches d'être exécutées simultanément ou en parallèle, la programmation asynchrone améliore les performances globales de l'application. Cela est particulièrement important dans les applications nécessitant une gestion efficace des ressources et une scalabilité pour gérer de grandes quantités de données ou de trafic.</li>
+                    <li><i>Optimisation du Temps de Chargement</i> : Sur les applications web, le chargement asynchrone des ressources telles que les images, les scripts ou les styles permet d'améliorer la vitesse de chargement global de la page, en chargeant les éléments de manière non bloquante.</li>
+                </ol>
+                <p>En résumé, la programmation asynchrone est essentielle pour améliorer la réactivité, l'efficacité et les performances des applications modernes, en particulier celles qui interagissent fréquemment avec des ressources externes ou nécessitent un traitement intensif sans bloquer le thread principal.</p>
+            
+                <h3>Exemple</h3>
+                <p>Exécutons d'abors une simulation d'aquisition de données. Créez vous un fichier test.html et copiez-y le code. Ensuite utiliser l'extenstion Live Server pour lancer ce fichier dans votre navigateur.</p>
+                <pre><code class="language-js">
+<!--                -->&lt;script&gt;
+<!--                -->    function fetchDataSync() {
+<!--                -->        try {
+<!--                -->            // Pour transformer des promesses asynchrones en une simulation de code synchrone il faut les traiters en cascade.        
+<!--                -->            // Ceci est à la fois horrible à lire et tout à fait inefficace dans le cas où les fonctions ne dépendent pas l'une de l'autre.
+<!--                -->            fetchWeatherData().then(res =&gt; {
+<!--                -->                const weatherData = res;
+<!--                -->                fetchNewsData().then(resp =&gt; {
+<!--                -->                    const newsData = resp;
+<!--                -->                    fetchStocksData().then(response =&gt;{
+<!--                -->                        const stocksData = response;
+<!--                -->                        // Process data
+<!--                -->                        console.log(&quot;Sync : &quot;, weatherData, newsData, stocksData);
+<!--                -->                    })})})
+<!--                -->            
+<!--                -->        } catch (error) {
+<!--                -->            console.error('Error fetching data:', error);
+<!--                -->        }
+<!--                -->    }
+<!--                -->     // Sim-1
+<!--                -->    function fetchWeatherData() {
+<!--                -->        
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve({ temperature: 25, condition: 'Sunny' });
+<!--                -->            }, 1000);
+<!--                -->        });
+<!--                -->    }
+<!--                -->     // Sim-2
+<!--                -->    function fetchNewsData() {
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve(['Article 1', 'Article 2', 'Article 3']);
+<!--                -->            }, 1500);
+<!--                -->        });
+<!--                -->    }
+<!--                -->     // Sim-3
+<!--                -->    function fetchStocksData() {
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve({ symbol: 'AAPL', price: 150.25 });
+<!--                -->            }, 2000);
+<!--                -->        });
+<!--                -->    }
+<!--                -->
+<!--                -->
+<!--                -->    // La meilleure solution beacoup plus rapide est d'utiliser async/await
+<!--                -->    // Vous remarquerez la lisibilité accrue et en testant vous verrez la différence en rapidité.
+<!--                -->    async function fetchDataAsync() {
+<!--                -->        try {
+<!--                -->            const weatherPromise = fetchWeatherDataAsync();
+<!--                -->            const newsPromise = fetchNewsDataAsync();
+<!--                -->            const stocksPromise = fetchStocksDataAsync();
+<!--                -->
+<!--                -->            const [weatherData, newsData, stocksData] = await Promise.all([weatherPromise, newsPromise, stocksPromise]);
+<!--                -->
+<!--                -->            // Process data
+<!--                -->            
+<!--                -->            console.log(&quot;Async : &quot;, weatherData, newsData, stocksData);
+<!--                -->        } catch (error) {
+<!--                -->            console.error('Error fetching data:', error);
+<!--                -->        }
+<!--                -->    }
+<!--                -->
+<!--                -->    async function fetchWeatherDataAsync() {
+<!--                -->        // Simulate fetching weather data asynchronously
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve({ temperature: 25, condition: 'Sunny' });
+<!--                -->            }, 1000);
+<!--                -->        });
+<!--                -->    }
+<!--                -->
+<!--                -->    async function fetchNewsDataAsync() {
+<!--                -->        // Simulate fetching news data asynchronously
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve(['Article 1', 'Article 2', 'Article 3']);
+<!--                -->            }, 1500);
+<!--                -->        });
+<!--                -->    }
+<!--                -->
+<!--                -->    async function fetchStocksDataAsync() {
+<!--                -->        // Simulate fetching stocks data asynchronously
+<!--                -->        return new Promise(resolve =&gt; {
+<!--                -->            setTimeout(() =&gt; {
+<!--                -->                resolve({ symbol: 'AAPL', price: 150.25 });
+<!--                -->            }, 2000);
+<!--                -->        });
+<!--                -->    }
+<!--                -->    fetchDataSync();
+<!--                -->    fetchDataAsync();
+<!--                -->&lt;/script&gt;
+                </code></pre>
+                <p><i>async</i> : Déclare qu'une fonction retourne une promesse. Une fonction marquée async peut contenir des expressions await, qui mettent en pause l'exécution de la fonction asynchrone jusqu'à ce que la promesse soit résolue ou rejetée.</p>
+                <p><i>await</i> : Met en pause l'exécution de la fonction asynchrone jusqu'à ce que la promesse soit résolue ou rejetée. On utilise await uniquement à l'intérieur des fonctions déclarées avec async.</p>
+                <p><i>Promise.all</i> est une méthode statique qui prend un tableau de promesses en entrée et retourne une nouvelle promesse qui est résolue lorsque toutes les promesses du tableau d'entrée sont résolues, ou rejetée si l'une des promesses est rejetée.</p>
+                <div class="exercice">
+                    <h2>Pratique</h2>
+                    <p>Créez 4 méthodes qui simule la connexion à une bd. Elles auront pour nom fetchLongueur, fetchLargeur, fetchProfondeur, fetchMasseVolumique. Chacune de ces fonctions retournera une promise qui se resoudra en 1s et qui retournera respectivement pour chaque fonction 2,1,4,5. </p>
+                    <ol>
+                        <li>Faites un programme qui resout ce problème sans utiliser de async, await ou callback.</li>
+                        <li>Faites une programme qui resout ce problème avec async et await</li>
+                    </ol>
+                    
+                </div>
+
+                <hr class="section">
+
+                <h2>Requêtes</h2>
+
+                <p></p>
+            </div>
+                
+        </div>
+    <div w3-include-html="includes/vertNavBar.html"></div> 
+    <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    
+</body>
+</html>

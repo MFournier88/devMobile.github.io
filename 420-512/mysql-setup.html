@@ -1,0 +1,223 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <hr>
+                <h2>Téléchargement de MySQL</h2>
+                <ol>
+                    <li><a href="https://dev.mysql.com/downloads/installer/"  target="_blank">Lien de téléchargement pour windows</a></li>
+                    <li>Cliquez sur le premier bouton Download</li>
+                    <li>Cliquez sur <i>No thanks, just start my download</i></li>
+                    <li>Executer le fichier que vous venez de télécharger</li>
+                    <li>Choisissez l'option d'installation <i>Custom</i></li>
+                    <li>Dans la section <i>Products to be installed</i> il doit y avoir
+                        <ul>
+                            <li>La version la plus récente de MySQL Servers trouvée dans <i>MySQL Servers -&gt MySQL Servers -&gt; MySQL Server 8.0 -&gt; &lt;&lt; S&eacute;lectionnez le premier &gt;&gt;</i></li>
+                            <li>La version la plus récente de MySQL Workbench trouvée dans <i>Applications -&gt MySQL Workbench -&gt; MySQL Workbench 8.0 -&gt; &lt;&lt; S&eacute;lectionnez le premier &gt;&gt;</i></li>
+                            <li>La version la plus récente de MySQL Workbench trouvée dans <i>Applications -&gt MySQL Shell -&gt; MySQL Shell 8.0 -&gt; &lt;&lt; S&eacute;lectionnez le premier &gt;&gt;</i></li>
+                        </ul>
+                    </li>
+                    <li>Faites Next ou execute jusqu'à ce que vous croisiez <i>Account and Roles</i>. Dans cette fenêtre, choisissez un mdp pour votre base de donnée. Vous devez vous en rappelez, pour mon cours je vous conseil de mettre &lt;&lt; abc-123 &gt;&gt;</li>
+                    <li>Faites Next ou execute jusqu'à ce qu'il vous propose Finish.</li>
+                    <li>Ouvrir l'application MySQL Workbench</li>
+                    <li>Vous devriez voir qu'il existe déjà une connexion <i>Local instance MySQL</i>. Cliquez dessus</li>
+                </ol>
+                <p>Félicitation! Vous êtes prêt à créer votre première table!</p>
+                
+                <hr class="section">
+                <h2>MySQL depuis la ligne de commande</h2>
+                <div class="pt-4">
+                    <p>Pour vous connecter à MySQL faites : <span class="inline-code"><span class="cmd">mysql</span> <span class="option">-u</span> root <span class="option">-p</span></span>. Entrez le mdp que vous avez choisis à la création de votre bd.</p>
+                    <p>Pour vérifier la connexion vous pouvez faire : <span class="inline-code"><span class="cmd">show databases</span></span>.</p>
+                    <p>Directement dans le terminal vous pouvez maintenant entrez du code SQL qui agiera sur votre bd.</p>
+                </div>
+                
+                <hr class="section">
+                <h2>SQL - Rapidement</h2>
+                <div class="container-fluid pt-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <code class="language-sql d-flex h-100 w-100 align-items-center justify-content-center formatOneLine" >
+                                CREATE DATABASE bd;
+                            </code>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <p><i>CREATE DATABASE</i>: C'est une instruction SQL qui indique au système de gestion de base de données que vous souhaitez créer une nouvelle base de données.</p>
+                            <p><i>bd</i>: c'est le nom de la bd (base de donnée)</p>
+                            <p><i>;</i> : ne jamais oublier le point virgule</p>
+                        </div>
+                    </div>
+                    <hr style="width:70%;margin: 40px auto">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <code class="language-sql d-flex h-100 w-100 align-items-center justify-content-center formatOneLine" >
+                                USE bd;
+                            </code>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <p><i>USE bd</i>:  le SGBD va changer le contexte actif de la session SQL pour la base de données appelée bd.</p>
+                        </div>
+                    </div>
+
+                    <hr style="width:70%;margin: 40px auto">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <code class="language-sql d-flex h-100 w-100 align-items-center justify-content-center formatOneLine" >
+                                DROP DATABASE bd;
+                            </code>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <p><i>DROP DATABASE bd;</i>: est utilisée pour supprimer complètement une base de données d'un serveur SQL.</p>
+                        </div>
+                    </div>
+
+                    <hr style="width:70%;margin: 40px auto">
+                    <div class="row">
+                        <div class="col-12">
+                            <pre><code class="language-sql" >
+<!--                         -->CREATE TABLE etudiant (
+<!--                         -->    matricule INT PRIMARY KEY,
+<!--                         -->    nom_complet VARCHAR(100),
+<!--                         -->    groupe INT
+<!--                         -->);
+                            </code></pre>
+                        </div>
+                        <div class="col-12">
+                            <p>La commande pour créer une table est <i>CREATE TABLE</i> suivi par le nom de la table `etudiant`.</p>
+                            <p>Ensuite entre parenthèse, chaque ligne représente une colonne de la table nouvellement créer.</p>
+                            <p>Par exemple : <i>matricule INT PRIMARY KEY</i>:</p>
+                            <ul>
+                                <li><i>matricule</i> : Le nom de la colonne</li>
+                                <li><i>INT</i> : Le type des données de la colonne</li>
+                                <li><i>PRIMARY KEY</i> : Indique que cette colonne est une <a href="https://fr.wikipedia.org/wiki/Cl%C3%A9_primaire">clef primaire</a> avec toutes les propriétés qui y sont propre</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <hr style="width:70%;margin: 40px auto">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <code class="language-sql d-flex h-100 w-100 align-items-center justify-content-center formatOneLine" >
+                                SELECT * FROM etudiant;
+                            </code>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <p>SELECT basique qui récupère toutes les colonnes de la table "etudiant"</p>
+                            <ul>
+                                <li><i>SELECT</i> : C'est l'instruction qui indique à la base de données que vous souhaitez sélectionner des données.</li>
+                                <li><i>* </i> : C'est un opérateur qui signifie "toutes les colonnes". Lorsqu'il est utilisé après SELECT, il récupère toutes les colonnes disponibles dans la table spécifiée.</li>
+                                <li><i>FROM etudiant</i> : Cela spécifie que vous souhaitez sélectionner les données de la table nommée "etudiant". "etudiant" est le nom de la table à partir de laquelle les données seront récupérées.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <hr style="width:70%;margin: 40px auto">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <pre><code class="language-sql" >
+<!--                        -->-- Pour renommer la table etudiant et lui donner le nom etudiants
+<!--                        -->RENAME TABLE etudiant To etudiants;
+
+<!--                        -->-- Pour Supprimer la table etudiants
+<!--                        -->DROP TABLE etudiants;
+
+<!--                        -->-- Ajouter une colonne
+<!--                        -->ALTER TABLE etudiants
+<!--                        -->ADD email VARCHAR(100);
+
+<!--                        -->-- Renommer une colonne
+<!--                        -->ALTER TABLE  etudiants
+<!--                        -->RENAME COLUMN email TO adresse_couriel;
+
+<!--                        -->-- Changer le type d'une colonne
+<!--                        -->ALTER TABLE etudiants
+<!--                        -->MODIFY COLUMN adresse_couriel VARCHAR(50);
+
+<!--                        -->-- Modifier l'ordre des colonnes
+<!--                        -->ALTER TABLE etudiants
+<!--                        -->MODIFY adresse_couriel VARCHAR(50)
+<!--                        -->AFTER matricule;-- Si vous voulez placer la colonne en premier, utiliser seulement FIRST
+
+<!--                        -->-- Supprimer une colonne
+<!--                        -->ALTER TABLE etudiants
+<!--                        -->DROP COLUMN adresse_couriel;
+
+                            </code></pre>
+                        </div>
+                        
+                        <hr style="width:70%;margin: 40px auto">
+                        <div class="row">
+                            <div class="col-12">
+                                <pre><code class="language-sql" >
+<!--                             -->INSERT INTO etudiants 
+<!--                             -->VALUES  (123456, "Stefan Salvatore", 1),
+<!--                             -->        (112347, "Damon Salvatore", 2);
+                                </code></pre>
+                            </div>
+                            <div class="col-12">
+                                <p>Cette requête INSERT INTO insère deux enregistrements dans la table "etudiants". Chaque enregistrement est défini par une série de valeurs, correspondant aux colonnes spécifiées dans l'ordre où elles sont définies dans la structure de la table.</p>
+                                
+                            </div>
+                        </div>
+
+                        <hr style="width:70%;margin: 40px auto">
+                        <div class="row">
+                            <div class="col-12">
+                                <pre><code class="language-sql" >
+<!--                             -->INSERT INTO etudiants (matricule, nom_complet)
+<!--                             -->VALUES  (123456, "Elena Gilbert");
+<!--                             -->
+                                </code></pre>
+                            </div>
+                            <div class="col-12">
+                                <p>Si vous ne voulez pas ajouter toutes les colonnes lors de la création de la ligne, vous devez mentionner les colonnes à ajouter entre parenthèse à la fin de la première ligne.</p>
+                                
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                
+                
+                   
+                
+                
+                
+            </div>
+                
+        </div>
+    <div w3-include-html="includes/vertNavBar.html"></div> 
+    <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    
+</body>
+</html>
