@@ -22,3 +22,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 includeHTML();
 Prism.highlightAll();
+
+function toggleVisibilityById(id){
+    
+    const element = document.getElementById(id);
+
+    element.classList.toggle("hidden");
+}

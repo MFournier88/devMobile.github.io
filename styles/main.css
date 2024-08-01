@@ -5,6 +5,11 @@
     --purple-7: #7518df;
     --purple-8: #6513c2;
 
+    --blue-1: #b3b7e6;
+    --blue-3: #6769ff;
+    --blue-6: #0004ff;
+    --blue-7: #0004ffbb;
+    --blue-8: #0004ff3b;
     
     --rightNavSize: 250px;
 
@@ -44,6 +49,9 @@ i{
 .inline-code .jskey {
     color: #66d9ef;
 }
+.inline-code .jsString{
+    color: #d4715f
+}
 .inline-code.jskey {
     color: #66d9ef;
 }
@@ -56,6 +64,9 @@ i{
 }
 html{
     height:100%
+}
+.hidden{
+    display: none!important;
 }
 /* Adjust main content to align properly */
 .main-content {
@@ -88,6 +99,10 @@ pre code {
     padding: 0px 20px;
    
 }
+.flex{
+    display:flex;
+}
+
 .formatOneLine span{
     padding: 0 10px 0 0;
 }
@@ -98,6 +113,24 @@ pre code {
 }
 .section{
     margin: 80px 0;
+}
+
+.solution{
+    border: 6px solid var(--blue-3);
+    padding: 20px;
+    background-color: var(--blue-1);
+    color:var(--blue-7);
+}
+.solution h2{
+    color: var(--blue-8);
+    border-bottom: 2px solid var(--blue-7);
+}
+.btn.solutionButton{
+    margin: 40px 0;
+    border: 2px solid var(--blue-6);
+}
+.btn.solutionButton:hover{
+    background-color:  var(--blue-1);
 }
 .vertical-brand{
     height: 56px; /* Set the height of the element */

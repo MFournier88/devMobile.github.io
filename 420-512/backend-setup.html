@@ -68,7 +68,7 @@
                 <hr class="section">
 
                 <h2>Connexion à la bd</h2>
-                <p>Voici le code vous permettant de vous connecter à la bd. Vous devez au préalable avoir créé vos variables dans le fichier .env qui se situe à la racine du projet</p>
+                <p>Voici le code vous permettant de vous connecter à la bd, mettez le dans un fichier nommez <i>database.js</i>. Vous devez au préalable avoir créé vos variables dans le fichier .env qui se situe à la racine du projet</p>
                 <pre><code class="language-js">
 <!--                -->import mysql from 'mysql2';
 <!--                -->import dotenv from 'dotenv';
@@ -80,6 +80,7 @@
 <!--                -->    database: process.env.MYSQL_DATABASE
 <!--                -->}).promise()
                 </code></pre>
+                <p><span class="inline-code"><span class="cmd">node</span> database.js</span> pour tester le fichier.</p>
                 <p>Tester en faisant un requête. Ajouter simplement le code suivant pour le test, puis retirer le :</p>
                 <pre><code class="language-js">
 <!--                -->const [resultat] = await pool.query("SELECT * FROM etudiants")
@@ -101,7 +102,7 @@
 <!--            -->    // "action" (Peux prendre un certain temps)
 <!--            -->    
 <!--            -->        resolve(); // Fonction pour retourner un succès
-<!--            -->        myReject();  // Fonction pour retourner une erreur
+<!--            -->        reject();  // Fonction pour retourner une erreur
 <!--            -->    });
 <!--            -->    
 <!--            -->    // "Réaction" (Doit attendre le retour de l'action)
@@ -132,7 +133,7 @@
                 <p>En résumé, la programmation asynchrone est essentielle pour améliorer la réactivité, l'efficacité et les performances des applications modernes, en particulier celles qui interagissent fréquemment avec des ressources externes ou nécessitent un traitement intensif sans bloquer le thread principal.</p>
             
                 <h3>Exemple</h3>
-                <p>Exécutons d'abors une simulation d'aquisition de données. Créez vous un fichier test.html et copiez-y le code. Ensuite utiliser l'extenstion Live Server pour lancer ce fichier dans votre navigateur.</p>
+                <p>Exécutons d'abors une simulation d'aquisition de données. Créez vous un fichier test.html et copiez-y le code. Ensuite utiliser l'extenstion Live Server pour lancer ce fichier dans votre navigateur. Sinon faites un fichier test.js retirer les balise script et tester avec <span class="inline-code"><span class="cmd">node</span> test.js</span></p>
                 <pre><code class="language-js">
 <!--                -->&lt;script&gt;
 <!--                -->    function fetchDataSync() {
@@ -244,11 +245,139 @@
                 <hr class="section">
 
                 <h2>Requêtes</h2>
+                <div class="exercice">
+                    <h2>Créez cette table dans votre bd</h2>
+                    <img style="margin: 0 auto;display:block;" src="/devMobile.github.io/images/exo1-backend-setup-1.PNG" alt="Table à recréer">
+                </div>
+                <p>Dans database.js nous allons maintenant créez des requêtes simples :</p>
+                <pre><code class="language-js">
+<!--                -->// Ce code fonctionne car await peut être utiliser au `Top-level`
+<!--                -->const [resultat] = await pool.query("SELECT * FROM parc_attraction")
+<!--                -->console.log(resultat)
 
-                <p></p>
-            </div>
+<!--                -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                -->async function getParcAttraction() {
+<!--                -->     const [rows] = await pool.query("SELECT * FROM parc_attraction")
+<!--                -->     return rows
+<!--                -->}
+<!--                -->const parc = await getParcAttraction()
+<!--                -->console.log(parc)
+
+                </code></pre>
+                <div class="exercice">
+                    <h2>Pratique - Requêtes</h2>
+                    <ol>
+                        <li>Faites un code qui affiche les lignes de la table parc d'attraction, en ajoute 2 nouvelles, affiche encore une fois toutes les lignes puis supprime les 2 lignes créez et affiche une dernière fois toutes les lignes de la table.</li>
+                        <li>Utiliser le code suivant : 
+                            <pre><code class="language-js">
+<!--                        -->async function getParcAttraction(id) {
+<!--                        -->    return new Promise(resolve => {
+<!--                        -->        setTimeout(async () => {
+<!--                        -->            const demande = "SELECT * FROM parc_attraction WHERE id=" + id;
+<!--                        -->            const [rows] = await pool.query(demande)
+<!--                        -->            resolve(rows[0]);
+<!--                        -->        }, 4000);
+<!--                        -->    })    
+<!--                        -->}
+                            </code></pre>
+                            Vous devez utilisez ce code pour afficher "Disney La Ronde" en utilisant seulement leur id, cette fonction et ce en moins de 5s. (indice vous avez droit à Promise.all)
+                        </li>
+                    </ol>
+                   
+                    
+                </div>
                 
+                <hr class="section">
+
+                <h2>Requête préparée</h2>
+                <ol>
+                    <li><i>Sécurité contre les injections SQL</i> :
+                        Les requêtes préparées aident à prévenir les attaques par injection SQL en séparant les données des instructions SQL. Avec les requêtes préparées, les valeurs des paramètres sont transmises séparément de la requête SQL elle-même, ce qui empêche les attaquants d'injecter du code SQL malveillant via les données utilisateur. Cela garantit une meilleure sécurité des données et protège contre les vulnérabilités courantes comme les attaques par injection SQL.
+                    </li>
+                    <li><i>Performance optimisée</i>: Les bases de données peuvent optimiser l'exécution de requêtes préparées en les compilant une seule fois et en réutilisant le plan d'exécution pour les requêtes similaires avec des paramètres différents. Cela peut réduire la charge sur la base de données et améliorer les performances, surtout lorsque les mêmes requêtes sont exécutées fréquemment avec différents paramètres.</li>
+                    <li><i> Clarté du code et maintenance simplifiée</i> : Les requêtes préparées rendent le code plus lisible et plus facile à maintenir en séparant clairement la logique de la requête SQL de ses données. Cela facilite la gestion des modifications ultérieures de requêtes sans avoir à réécrire le code SQL principal.</li>
+                </ol>
+                <p>Reprenons l'exemple précédent sans le timeout et transformons la requête en requête préparée</p>
+                <pre><code class="language-js">
+<!--            -->async function getParcAttraction(id) {
+<!--            -->     const [rows] = await pool.query(`SELECT * FROM parc_attraction WHERE id=?`,[id])
+<!--            -->     return rows[0];
+<!--            -->}
+                </code></pre>
+                <div class="exercice">
+                    <h2>Exercices</h2>
+                    Faites un CRUD basique avec les fonction async suivante:
+                    <ol>
+                        <li>Création d'un parc d'attraction en prenant les données en paramètre</li>
+                        <li>Lire une ligne en donnant l'id en paramètre</li>
+                        <li>Lire toute les lignes de la table</li>
+                        <li>Modifier une ligne de la table en prenant en paramètre toutes les données (id, nom, ville, cout du billet)</li>
+                        <li>Supprimer une ligne en prenant en paramètre l'id</li>
+                    </ol>
+                </div>
+
+                <hr class="section">
+                
+                <h2>Express</h2>
+                <p>Dans votre projet CRUD, dans le fichier `database.js`, exporter toutes les  fonctions pour pouvoir les utiliser dans un autre module.</p>
+                
+                <pre><code class="language-js">
+<!--                -->export async function getParcAttractions() {
+<!--                -->    const [rows] = await pool.query("SELECT * FROM parc_attraction")
+<!--                -->    return rows
+<!--                -->}
+                </code></pre>
+                <ol>
+                    <li>Créez votre fichier app.js. Assurez-vous que l'option main dans package.json soit : <span class="inline-code"><span class="jskey">"main":</span>&nbsp;<span class="jsString">"app.js"</span></span>.</li>
+                    <li>Mettez-y ce code de base d'une application express:
+                        <pre><code class="language-js">
+<!--                    -->import express from 'express';
+<!--                    -->// Ces fonctions sont celles que nous avons créé précédemment, assurez vous que l'importation réussit                
+<!--                    -->import {getParcAttractions, getParcAttraction} from "./database.js"
+<!--                    -->
+<!--                    -->const app = express();
+<!--                    -->
+<!--                    -->// app.use(express.json()) est une instruction cruciale pour configurer Express afin de gérer et d'interpréter
+<!--                    -->//   automatiquement les données JSON envoyées via les requêtes HTTP, facilitant ainsi le développement d'applications
+<!--                    -->//   web basées sur Node.js avec Express.
+<!--                    -->app.use(express.json())
+<!--                    -->app.get("/parc-attractions", async (req,res) => {
+<!--                    -->    const parcs = await getParcAttractions()
+<!--                    -->    res.send(parcs)
+<!--                    -->})
+<!--                    -->app.get("/parc-attraction/:id", async (req,res) => {
+<!--                    -->    const id = req.params.id
+<!--                    -->    const employee = await getParcAttraction(id)
+<!--                    -->    res.send(employee)
+<!--                    -->})
+<!--                    -->
+<!--                    -->// Lorsqu'une erreur se produit dans l'application (par exemple, une exception non gérée), Express appelle automatiquement
+<!--                    -->// ce middleware d'erreur avec l'objet d'erreur (err), ce qui permet de la gérer de manière centralisée et uniforme.
+<!--                    -->app.use((err, req, res, next) => {
+<!--                    -->    console.error(err.stack)
+<!--                    -->    res.status(1045).send('Something broke!')
+<!--                    -->})
+<!--                    -->
+<!--                    -->// Lance le serveur et lui indique quel port utiliser 
+<!--                    -->app.listen(8080, () => {
+<!--                    -->    console.log('Server is runnig on port 8080')
+<!--                    -->})
+                        </code></pre>
+                    </li>
+                    <li>Lancer le server avec <span class="inline-code"><span class="cmd">npm run</span> dev</span></li>
+                    <li><a target="_blank" href="http://127.0.0.1:8080/parc-attractions">Ouvrez le lien 127.0.0.1:8080/parc-attractions</a></li>
+                    
+                </ol>
+                <hr>
+                <h2>Restfull</h2>
+                <p>Pour la version longue des explications visiter le <a href="https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design">site</a> par microsoft.</p>
+                <!-- TODO Expliquer et exercices Restfull (Oubli pas le async) -->
+
+                
+            </div>
         </div>
+
+        
     <div w3-include-html="includes/vertNavBar.html"></div> 
     <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
         
