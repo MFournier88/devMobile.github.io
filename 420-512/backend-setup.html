@@ -25,7 +25,28 @@
     <div class="wrapper"> 
         <div class="safe-area-container main-content">
             <div class="container">
+                <hr>
+                <h2>Mise en place de Node</h2>
                 <ol>
+                    <li>Installer curl et unzip <span class="inline-code"><span class="cmd">apt install</span> curl unzip</span></li>
+                    <li>
+                        <pre><code class="language-bash">
+<!--                    --># installs fnm (Fast Node Manager)
+<!--                    -->curl -fsSL https://fnm.vercel.app/install | bash
+<!--                    -->
+<!--                    --># activate fnm
+<!--                    -->source ~/.bashrc
+<!--                    -->
+<!--                    --># download and install Node.js
+<!--                    -->fnm use --install-if-missing 22
+<!--                    -->
+<!--                    --># verifies the right Node.js version is in the environment
+<!--                    -->node -v # should print `v22.5.1`
+<!--                    -->
+<!--                    --># verifies the right npm version is in the environment
+<!--                    -->npm -v # should print `10.8.2`
+                        </code></pre>
+                    </li>
                     <li>Créez vous un dossier nommez CRUD et ouvrez le dans VSCode</li>
                     <li><span class="inline-code"><span class="cmd">npm init</span>  <span class="option">-y</span></span> : démarrer un nouveau projet Node.js, en sautant les étapes interactives de configuration grâce à l'acceptation automatique des valeurs par défaut.</li>
                     <li>Pour pouvoir utiliser  `import` et `export` ainsi que permettre du redémarrage automatique modifier ces 2 lignes dans le fichier package.json
@@ -37,7 +58,7 @@
                         </code></pre>
                     </li>
                     <li><span class="inline-code"><span class="cmd">npm install</span> <span class="option">--save-dev</span> nodemon</span> : On utilisera cette librairie pour redémarrer automatiquement le </li>
-                    <li><span class="inline-code"><span class="cmd">npm i </span>msql2</span> :  mysql2 est une librairie pour Node.js qui permet aux applications Node.js d'interagir avec des bases de données MySQL.  </li>
+                    <li><span class="inline-code"><span class="cmd">npm i </span>mysql2</span> :  mysql2 est une librairie pour Node.js qui permet aux applications Node.js d'interagir avec des bases de données MySQL.  </li>
                 </ol>
                 
                 <hr class="section">
@@ -46,7 +67,7 @@
                 <p>Les variables d'environnement sont utilisées pour sécuriser et paramétrer les applications sans stocker directement ces informations dans le code source. Elles permettent de séparer la configuration des applications (comme les clés d'API, les identifiants de base de données, etc.) de leur logique métier, facilitant ainsi la gestion et le déploiement dans différents environnements (développement, test, production). En outre, l'utilisation de variables d'environnement améliore la sécurité en évitant l'exposition de données sensibles dans le code source et en permettant des ajustements rapides et sûrs de la configuration sans nécessiter de modifications de code.</p>
                 <h3>Préparation</h3>
                 <ol>
-                    <li>Créez un fichier appelé `.env`</li>
+                    <li>Créez un fichier appelé `.env` à la racine de votre projet</li>
                     <li>Ajoutez-y : 
                     <pre><code class="language-html">
 <!--                -->MYSQL_HOST='127.0.0.1'
@@ -83,7 +104,7 @@
                 <p><span class="inline-code"><span class="cmd">node</span> database.js</span> pour tester le fichier.</p>
                 <p>Tester en faisant un requête. Ajouter simplement le code suivant pour le test, puis retirer le :</p>
                 <pre><code class="language-js">
-<!--                -->const [resultat] = await pool.query("SELECT * FROM etudiants")
+<!--                -->const [resultat] = await pool.query("SELECT * FROM etudiant")
 <!--                -->console.log(resultat)
                 </code></pre>
                 
@@ -236,12 +257,132 @@
                     <h2>Pratique</h2>
                     <p>Créez 4 méthodes qui simule la connexion à une bd. Elles auront pour nom fetchLongueur, fetchLargeur, fetchProfondeur, fetchMasseVolumique. Chacune de ces fonctions retournera une promise qui se resoudra en 1s et qui retournera respectivement pour chaque fonction 2,1,4,5. </p>
                     <ol>
-                        <li>Faites un programme qui resout ce problème sans utiliser de async, await ou callback.</li>
-                        <li>Faites une programme qui resout ce problème avec async et await</li>
+                        <li>Faites un programme nommé promise.js qui calcul la masse sans utiliser de async, await ou callback.</li>
+                        <li>Faites une programme nommé async.js qui calcul la masse avec async et await</li>
                     </ol>
                     
                 </div>
-
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button>
+                <div class="solution hidden" id="solutionExo1">
+                    <ol>
+                        <li>
+                            <pre><code class="language-js">
+<!--                           -->function calculMasse() {
+<!--                           -->    try {
+<!--                           -->        // Pour transformer des promesses asynchrones en une simulation de code synchrone il faut les traiters en cascade.        
+<!--                           -->        // Ceci est à la fois horrible à lire et tout à fait inefficace dans le cas où les fonctions ne dépendent pas l'une de l'autre.
+<!--                           -->        fetchLongueur().then(res => {
+<!--                           -->            let masse = res;
+<!--                           -->            fetchLargeur().then(resp => {
+<!--                           -->                masse *= resp;
+<!--                           -->                fetchProfondeur().then(response =>{
+<!--                           -->                    masse *= response;
+<!--                           -->                    fetchMasseVolumique().then(response2 => {
+<!--                           -->                        masse *= response2
+<!--                           -->                        // Process data
+<!--                           -->                        console.log("Sync : ", masse);
+<!--                           -->                    })
+<!--                           -->                })
+<!--                           -->            })
+<!--                           -->        })
+<!--                           -->        
+<!--                           -->    } catch (error) {
+<!--                           -->        console.error('Error fetching data:', error);
+<!--                           -->    }
+<!--                           -->}
+<!--                           --> // Sim-1
+<!--                           -->function fetchLongueur() {
+<!--                           -->    
+<!--                           -->    return new Promise(resolve => {
+<!--                           -->        setTimeout(() => {
+<!--                           -->            resolve(2);
+<!--                           -->        }, 1000);
+<!--                           -->    });
+<!--                           -->}
+<!--                           --> // Sim-2
+<!--                           -->function fetchLargeur() {
+<!--                           -->    return new Promise(resolve => {
+<!--                           -->        setTimeout(() => {
+<!--                           -->            resolve(1);
+<!--                           -->        }, 1000);
+<!--                           -->    });
+<!--                           -->}
+<!--                           --> // Sim-3
+<!--                           -->function fetchProfondeur() {
+<!--                           -->    return new Promise(resolve => {
+<!--                           -->        setTimeout(() => {
+<!--                           -->            resolve(4);
+<!--                           -->        }, 1000);
+<!--                           -->    });
+<!--                           -->}
+<!--                           --> // Sim-3
+<!--                           --> function fetchMasseVolumique() {
+<!--                           -->    return new Promise(resolve => {
+<!--                           -->        setTimeout(() => {
+<!--                           -->            resolve(5);
+<!--                           -->        }, 1000);
+<!--                           -->    });
+<!--                           -->}
+<!--                           -->calculMasse();
+                            </code></pre>
+                        </li>
+                        <li>
+                            <pre><code class="language-js">
+<!--                        -->async function calculMasseAsync() {
+<!--                        -->    try {
+<!--                        -->        // Pour transformer des promesses asynchrones en une simulation de code synchrone il faut les traiters en cascade.        
+<!--                        -->        // Ceci est à la fois horrible à lire et tout à fait inefficace dans le cas où les fonctions ne dépendent pas l'une de l'autre.
+<!--                        -->        const longueur = fetchAsyncLongueur()
+<!--                        -->        const largeur = fetchAsyncLargeur()
+<!--                        -->        const profondeur = fetchAsyncProfondeur()
+<!--                        -->        const masseVolumique = fetchAsyncMasseVolumique()
+<!--                        -->
+<!--                        -->        const [longueurData, largeurData, profondeurData, masseVolumiqueData] = await Promise.all([longueur, largeur, profondeur, masseVolumique])
+<!--                        -->        console.log("Async : ", longueurData*largeurData*profondeurData*masseVolumiqueData)
+<!--                        -->    } catch (error) {
+<!--                        -->        console.error('Error fetchAsyncing data:', error);
+<!--                        -->    }
+<!--                        -->}
+<!--                        --> // Sim-1
+<!--                        -->async function fetchAsyncLongueur()  {
+<!--                        -->    
+<!--                        -->    return new Promise(resolve => {
+<!--                        -->        setTimeout(() => {
+<!--                        -->            resolve(2);
+<!--                        -->        }, 1000);
+<!--                        -->    });
+<!--                        -->}
+<!--                        --> // Sim-2
+<!--                        -->async function fetchAsyncLargeur() {
+<!--                        -->    return new Promise(resolve => {
+<!--                        -->        setTimeout(() => {
+<!--                        -->            resolve(1);
+<!--                        -->        }, 1000);
+<!--                        -->    });
+<!--                        -->}
+<!--                        --> // Sim-3
+<!--                        -->async function fetchAsyncProfondeur() {
+<!--                        -->    return new Promise(resolve => {
+<!--                        -->        setTimeout(() => {
+<!--                        -->            resolve(4);
+<!--                        -->        }, 1000);
+<!--                        -->    });
+<!--                        -->}
+<!--                        --> // Sim-3
+<!--                        --> async function fetchAsyncMasseVolumique() {
+<!--                        -->    return new Promise(resolve => {
+<!--                        -->        setTimeout(() => {
+<!--                        -->            resolve(5);
+<!--                        -->        }, 1000);
+<!--                        -->    });
+<!--                        -->}
+<!--                        -->calculMasseAsync();                        
+                            </code></pre>
+                        </li>
+                        
+                    </ol>
+                    
+                </div>
                 <hr class="section">
 
                 <h2>Requêtes</h2>
@@ -249,6 +390,40 @@
                     <h2>Créez cette table dans votre bd</h2>
                     <img style="margin: 0 auto;display:block;" src="/devMobile.github.io/images/exo1-backend-setup-1.PNG" alt="Table à recréer">
                 </div>
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo2')">Solution</button>
+                <div class="solution hidden" id="solutionExo2">
+                    <ol>
+                        <li>
+                            <pre><code class="language-sql">
+<!--                            -->CREATE TABLE parc_attraction ( 
+<!--                            -->    id INT AUTO_INCREMENT PRIMARY KEY,
+<!--                            -->    nom VARCHAR(100), 
+<!--                            -->    ville VARCHAR(500), 
+<!--                            -->    cout_billet DECIMAL(6,2) 
+<!--                            -->    );
+                            </code></pre>
+                        </li>
+                        <li>
+                            <pre><code class="language-js">
+<!--                            -->#!/bin/bash
+
+<!--                            --># Define variables
+<!--                            -->DB_NAME="mobile"
+<!--                            -->DB_USER="root"
+<!--                            -->DB_PASS="abc-123"
+<!--                            -->DB_HOST="localhost"
+<!--                            -->
+<!--                            --># Create database
+<!--                            -->mysql -h $DB_HOST -u $DB_USER -p$DB_PASS -e "use $DB_NAME;INSERT INTO parc_attraction (nom, ville, cout_billet) VALUES ('La Ronde','Montréal','55.99'),('Disney','Orlando','99.49');"
+                            </code></pre>
+                        </li>
+                        
+                    </ol>
+                    
+                </div>
+               
+
+
                 <p>Dans database.js nous allons maintenant créez des requêtes simples :</p>
                 <pre><code class="language-js">
 <!--                -->// Ce code fonctionne car await peut être utiliser au `Top-level`
@@ -287,6 +462,78 @@
                     
                 </div>
                 
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo3')">Solution</button>
+                <div class="solution hidden" id="solutionExo3">
+                    <ol>
+                       
+                        <li>
+                            <pre><code class="language-js">
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function getParcAttraction() {
+<!--                            -->     const [rows] = await pool.query("SELECT * FROM parc_attraction;")
+<!--                            -->     return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function addParcAttraction(nom,ville,cout) {
+<!--                            -->    const [rows] = await pool.query(`INSERT INTO parc_attraction (nom, ville, cout_billet) VALUES ('${nom}','${ville}','${cout}');`)
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function removeParcAttractionByName(nom) {
+<!--                            -->    const [rows] = await pool.query(`DELETE FROM parc_attraction 
+<!--                            -->                                     WHERE nom='${nom}';`)
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->const parc = await getParcAttraction()
+<!--                            -->console.log(parc)
+<!--                            -->
+<!--                            -->const ajout1 = await addParcAttraction('Super Aqua CLub', 'Pointe-Calumet', 60)
+<!--                            -->const ajout2 = await addParcAttraction('Bromont','Bromont',50)
+<!--                            -->
+<!--                            -->const parc2 = await getParcAttraction()
+<!--                            -->console.log(parc2)
+<!--                            -->
+<!--                            -->const ret1 = await removeParcAttractionByName("Super Aqua CLub");
+<!--                            -->const ret2 = await removeParcAttractionByName("Bromont");
+<!--                            -->
+<!--                            -->const parc3 = await getParcAttraction()
+<!--                            -->console.log(parc3)
+                            </code></pre>
+                        </li>
+                        <li>
+                            <pre><code class="language-js">
+<!--                            -->import mysql from 'mysql2';
+<!--                            -->import dotenv from 'dotenv';
+<!--                            -->dotenv.config();
+<!--                            -->const pool = mysql.createPool({
+<!--                            -->    host: process.env.MYSQL_HOST,
+<!--                            -->    user: process.env.MYSQL_USER,
+<!--                            -->    password: process.env.MYSQL_PASSWORD,
+<!--                            -->    database: process.env.MYSQL_DATABASE
+<!--                            -->}).promise()
+<!--                            -->
+<!--                            -->async function getParcAttraction(id) {
+<!--                            -->    return new Promise(resolve => {
+<!--                            -->        setTimeout(async () => {
+<!--                            -->            const demande = "SELECT * FROM parc_attraction WHERE id=" + id;
+<!--                            -->            const [rows] = await pool.query(demande)
+<!--                            -->            resolve(rows[0]);
+<!--                            -->        }, 4000);
+<!--                            -->    })    
+<!--                            -->}
+<!--                            -->
+<!--                            -->const parc1 =  getParcAttraction(1);
+<!--                            -->const parc2 =  getParcAttraction(2);
+<!--                            -->const [parc1Data, parc2Data] = await Promise.all([parc1,parc2])
+<!--                            -->console.log(parc2Data.nom + " " + parc1Data.nom )
+                            </code></pre>
+                        </li>
+                    </ol>
+                </div>
+
                 <hr class="section">
 
                 <h2>Requête préparée</h2>
@@ -315,7 +562,76 @@
                         <li>Supprimer une ligne en prenant en paramètre l'id</li>
                     </ol>
                 </div>
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo4')">Solution</button>
+                <div class="solution hidden" id="solutionExo4">
+                    <ol>
+                       
+                        <li>
+                            <pre>
+                                <code class="language-js">
 
+<!--                            -->import mysql from 'mysql2';
+<!--                            -->import dotenv from 'dotenv';
+<!--                            -->dotenv.config();
+<!--                            -->const pool = mysql.createPool({
+<!--                            -->    host: process.env.MYSQL_HOST,
+<!--                            -->    user: process.env.MYSQL_USER,
+<!--                            -->    password: process.env.MYSQL_PASSWORD,
+<!--                            -->    database: process.env.MYSQL_DATABASE
+<!--                            -->}).promise()
+<!--                            -->
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function addParcAttraction(nom,ville,cout) {
+<!--                            -->    const [rows] = await pool.query(`INSERT INTO parc_attraction (nom, ville, cout_billet) VALUES (?,?,?);`,[nom,ville,cout])
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->async function getParcAttraction(id) {
+<!--                            -->    const [rows] = await pool.query("SELECT * FROM parc_attraction where id=?;",[id])
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function getParcAttractions() {
+<!--                            -->     const [rows] = await pool.query("SELECT * FROM parc_attraction;")
+<!--                            -->     return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function updateParcAttraction(id,nom,ville,cout) {
+<!--                            -->    const [rows] = await pool.query(`UPDATE parc_attraction 
+<!--                            -->                                     SET nom=?, ville=?, cout_billet=?
+<!--                            -->                                     WHERE id=?;`,[nom,ville,cout,id])
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->
+<!--                            -->
+<!--                            -->// si vous prévoyer utiliser ce code plus d'une fois, il est plus propre de le mettre dans une fonction async
+<!--                            -->async function removeParcAttractionByName(nom) {
+<!--                            -->    const [rows] = await pool.query(`DELETE FROM parc_attraction 
+<!--                            -->                                     WHERE nom=?;`,[nom])
+<!--                            -->    return rows
+<!--                            -->}
+<!--                            -->
+<!--                            -->const step1 = await getParcAttraction(1);
+<!--                            -->console.log(step1);
+<!--                            -->
+<!--                            -->const step2 = await addParcAttraction("Bidon","lol",1000);
+<!--                            -->const step3 = await getParcAttractions();
+<!--                            -->console.log(step3);
+<!--                            -->
+<!--                            -->const step4 = await updateParcAttraction(1,"changed","Montréal",10);
+<!--                            -->const step5 = await getParcAttractions();
+<!--                            -->console.log(step5);
+<!--                            -->
+<!--                            -->const step6 = await updateParcAttraction(1,"La Ronde","Montréal",55.99);
+<!--                            -->const step7 = await removeParcAttractionByName("Bidon");
+<!--                            -->const step8 = await getParcAttractions();
+<!--                            -->console.log(step8);
+                                </code>
+                            </pre>
+                        </li>
+                    </ol>
+                </div>
                 <hr class="section">
                 
                 <h2>Express</h2>

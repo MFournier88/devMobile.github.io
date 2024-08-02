@@ -207,13 +207,27 @@
                             </div>
                         </div>
 
+                        <hr style="width:70%;margin: 40px auto">
+                        <div class="row">
+                            <div class="col-12">
+                                <pre><code class="language-sql">
+<!--                                -->UPDATE etudiant
+<!--                                -->SET nom_complet = "Klaus"
+<!--                                -->WHERE matricule = 112347;                        
+                                </code></pre>
+                            </div>
+                            <div class="col-12">
+                                <p>Modifier une colonne</p>
+                            </div>
+                        </div>
+                        
 
                     </div>
                 </div>
                 <div class="exercice">
                     <h2>Exercice</h2>
                     <ol>
-                        <li> Ajouter ces étudiants
+                        Ajouter ces étudiants
                             <pre><code class="language-sql">
 <!--                           -->INSERT INTO etudiant (matricule, nom_complet, groupe) VALUES
 <!--                           -->(1, 'Alice Smith', 1),
@@ -227,7 +241,7 @@
 <!--                           -->(9, 'Ian Miller', 1),
 <!--                           -->(10, 'Jessica Moore', 2);   
                             </code></pre>
-                        </li>
+                        
                         <li>Faites une requête pour afficher les étudiants du groupe 1</li>
                         <li>Faites une requête pour mettre Diana Lee dans le groupe 1</li>
                         <li>Faites une requête pour afficher les nom des étudiants dont le matricule est entre 3 et 8 exclusivement.</li>
@@ -235,11 +249,26 @@
                 </div>
                 <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button>
                 <div class="solution hidden" id="solutionExo1">
-                    <h5>Afficher les étudiants du groupe 1</h3>
-                    <pre><code class="language-sql">
-<!--                -->SELECT * FROM etudiant
-<!--                -->WHERE groupe=1;
-                    </code></pre>
+                    <ol>
+                        <li>
+                            <pre><code class="language-sql">
+<!--                        -->SELECT * FROM etudiant
+<!--                        -->WHERE groupe=1;
+                            </code></pre>
+                        </li>
+                        <li>
+                            <pre><code class="language-sql">
+<!--                        -->UPDATE etudiant
+<!--                        -->SET groupe = 1
+<!--                        -->WHERE matricule = 4;                        
+                            </code></pre>
+                        </li>
+                        <li><pre><code class="language-sql">
+<!--                       -->SELECT nom_complet FROM etudiant
+<!--                       -->WHERE matricule BETWEEN 4 and 7;
+                        </code></pre></li>
+                    </ol>
+                    
                 </div>
             </div>
                 
