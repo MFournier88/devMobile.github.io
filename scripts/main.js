@@ -1,7 +1,6 @@
 // Script to handle toggling of the vertical navbar and offcanvas menu
 document.addEventListener('DOMContentLoaded', function() {
     const offcanvasToggle = document.querySelector('[data-bs-target="#offcanvasDarkNavbarRight"]');
-    const verticalNavbar = document.getElementById('verticalNavbar');
     const offcanvasMenu = new bootstrap.Offcanvas(document.getElementById('offcanvasDarkNavbarRight'));
 
     offcanvasToggle.addEventListener('click', function() {
@@ -29,3 +28,33 @@ function toggleVisibilityById(id){
 
     element.classList.toggle("hidden");
 }
+
+
+// JavaScript to update active class on click
+function focusOnNavbar(id){
+    document.addEventListener("DOMContentLoaded", function() {
+        var checkNavbarLoaded = setInterval(function() {
+            var navbar = document.querySelector('.vertical-navbar');
+            if (navbar) {
+                clearInterval(checkNavbarLoaded); // Stop checking once the navbar is found
+                
+                // Your logic here
+                var links = navbar.querySelectorAll('.nav-link');
+                
+    
+                links.forEach(function(item) {
+                    item.classList.remove('active');
+                    if(item.id == id){
+                        item.classList.add('active')
+                    }
+                });
+                
+                    
+            }
+        }, 100); // Check every 100ms if the navbar is loaded
+    });
+}
+
+
+    
+

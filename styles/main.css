@@ -20,6 +20,7 @@ body{
     margin-bottom:0px;
     height:100%;
 }
+
 .exercice{
     border: 6px solid var(--purple-3);
     padding: 20px;
@@ -32,6 +33,24 @@ body{
 }
 i{
     font-weight: 700;
+}
+.image-container {
+    text-align: center; /* Center the image and license text */
+    max-width: 600px; /* Optional: set a max-width for the container */
+    margin: 0 auto; /* Center the container itself */
+}
+
+.image-container img {
+    width: 100%; /* Make the image responsive */
+    height: auto;
+    display: block; /* Ensure there’s no space below the image */
+}
+
+.image-container .license {
+    font-size: 0.9em; /* Make the text slightly smaller than normal text */
+    color: #666; /* Gray color for the license text */
+    margin-top: 5px; /* Space between the image and the text */
+    text-align: center; /* Center the license text */
 }
 .inline-code{
     background-color: var(--darkbackground-color);
@@ -153,7 +172,30 @@ pre code {
     background-color: #f8f9fa; /* Background color */
     overflow-y: auto; /* Enable scrolling */
 }
- 
+
+/* Ensure the active link is distinguished with a different background color and text color */
+.vertical-navbar .nav-link.active {
+    background-color: #495057; /* Darker background for active link */
+    color: #ffffff; /* White text for active link */
+    font-weight: bold; /* Make the text bold */
+}
+
+/* Optional: Add a border or other styling */
+.vertical-navbar .nav-link.active {
+    border-left: 4px solid #ffffff6b; /* Add a border to the left */
+    padding-left: 10px; /* Adjust padding to compensate for the border */
+}
+
+/* Styling for other nav-links */
+.vertical-navbar .nav-link {
+    color: #adb5bd; /* Gray color for non-active links */
+}
+
+.vertical-navbar .nav-link:hover {
+    background-color: #6c757d; /* Slightly lighter background on hover */
+    color: #ffffff; /* White text on hover */
+}
+
 
 /* Flexbox setup */
 .wrapper {
@@ -186,4 +228,54 @@ pre code {
         font-size: 14px; /* Adjust font size for smaller screens */
         padding: 10px; /* Adjust padding for smaller screens */
     }
+}
+
+/* Ensure responsiveness */
+@media (min-width: 992px) {
+    .main-content .container{
+        padding: 0 50px!important;
+    }
+}
+
+.pt-0{
+    padding-top: 0px;
+}
+.pt-10{
+    padding-top: 10px;
+}
+.pt-20{
+    padding-top: 20px;
+}
+.pt-30{
+    padding-top: 30px;
+}
+.pt-40{
+    padding-top: 40px;
+}
+.pt-50{
+    padding-top: 50px;
+}
+.pt-60{
+    padding-top: 60px;
+}
+.pb-0{
+    padding-bottom: 0px;
+}
+.pb-10{
+    padding-bottom: 10px;
+}
+.pb-20{
+    padding-bottom: 20px;
+}
+.pb-30{
+    padding-bottom: 30px;
+}
+.pb-40{
+    padding-bottom: 40px;
+}
+.pb-50{
+    padding-bottom: 50px;
+}
+.pb-60{
+    padding-bottom: 60px;
 }
