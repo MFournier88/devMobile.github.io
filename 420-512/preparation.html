@@ -6,7 +6,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
     <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -16,7 +16,8 @@
     <script src="/devMobile.github.io/scripts/includes.js"></script>
    <!-- add icon link -->
    <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
-    <title>Application Mobile | Cégep Marie-victorin</title>
+    
+    <title>Intro - Application Mobile | Cégep Marie-victorin</title>
 </head>
 <body>
     
@@ -24,13 +25,36 @@
     <div class="wrapper"> 
         <div class="safe-area-container main-content">
             <div class="container">
-                <h1 class="pt-20">Cours de développement d'applications mobiles</h1>
-                <div class="image-container pt-30">
-                    <img src="/devMobile.github.io/images/theme.png" alt="">
-                    <p class="license">© Licensed under <a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>. No changes were made.</p>
-                </div>
+                <hr>
+                <h2>React Native & Expo</h2>
+                <hr>
+                <h3>Installation</h3>
+                <p>Allez sur votre container sur le serveur</p>
+                <pre><code class="language-bash">
+<!--                -->sudo apt install curl
+<!--                -->
+<!--                -->curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+<!--                -->source ~/.bashrc
+<!--                -->nvm install 22
+<!--                --># Vérifiez l'installation
+<!--                -->npm -v
+<!--                -->node -v
+<!--                -->
+<!--                -->npm install -g expo-cli
+<!--                -->
+<!--                -->npx create-expo-app@latest -t
+<!--                -->
+<!--                --># Choisissez blank comme template
+<!--                -->
+<!--                -->cd <nomDuProjet>
+<!--                -->
+<!--                -->npx expo start
+                    </code></pre>
+                <p>Si tout c'est bien passée vous devriez voir un code QR. Il est maintenant temps d'installer Expo Go sur votre appareil mobile.</p>
+                <p>Après l'installation, vous pouvez scanner le code QR et voir l'application de base se déployer sur votre mobile.</p>
             </div>
         </div>
+
     <div w3-include-html="includes/vertNavBar.html"></div> 
     <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
         
@@ -39,6 +63,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="/devMobile.github.io/scripts/main.js"></script>
-    <script> focusOnNavbar("nav-link-accueil")</script>
+    
 </body>
 </html>
