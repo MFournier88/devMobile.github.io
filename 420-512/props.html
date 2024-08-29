@@ -138,6 +138,86 @@
                         Vous rencontrerez un problème lié à l'importation dynamique des images. Pour résoudre ce problème, utilisez les ressources disponibles sur Internet pour trouver la solution appropriée.
                     </p>
                 </div>
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button>
+            <div class="solution hidden" id="solutionExo1">
+                <ol>
+                    <li>
+<!--                -->import { StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+<!--                -->import React from 'react'
+<!--                -->
+<!--                -->const ImageScrollerH = ({names, mapping}) =&gt; {
+<!--                -->  return (
+<!--                -->    &lt;ScrollView 
+<!--                -->      horizontal
+<!--                -->      contentContainerStyle={{flexDirection:'row'}}
+<!--                -->      style={styles.scroll}
+<!--                -->    &gt;
+<!--                -->      {names.map((name, index) =&gt; (
+<!--                -->        &lt;View key={index} style={styles.container}&gt;
+<!--                -->          &lt;Image 
+<!--                -->            style={styles.image}
+<!--                -->            source={mapping[name]} /&gt;
+<!--                -->          &lt;Text key={index} style={styles.text}&gt;{name}&lt;/Text&gt;
+<!--                -->        &lt;/View&gt;
+<!--                -->        
+<!--                -->      ))}
+<!--                -->    &lt;/ScrollView&gt;
+<!--                -->    
+<!--                -->
+<!--                -->  )
+<!--                -->}
+<!--                -->
+<!--                -->export default ImageScrollerH
+<!--                -->
+<!--                -->const styles = StyleSheet.create({
+<!--                -->    container: {
+<!--                -->      alignItems: 'center',
+<!--                -->      justifyContent: 'center',
+<!--                -->      padding:10,
+<!--                -->    },
+<!--                -->    image: {
+<!--                -->      height:400,
+<!--                -->      width: 300, 
+<!--                -->      resizeMode: 'contain'
+<!--                -->    },
+<!--                -->    scroll:{
+<!--                -->      flex:1,
+<!--                -->      backgroundColor:'#fff',
+<!--                -->    },
+<!--                -->    text: {
+<!--                -->      fontSize: 18,
+<!--                -->      textAlign: 'center',
+<!--                -->      marginTop: 10,
+<!--                -->    },
+<!--                -->  });
+  
+                    </li>
+                    <li>
+                        <pre><code class="language-jsx">
+<!--                    -->import { StatusBar } from 'expo-status-bar';
+<!--                    -->import ImageScrollerH from '../components/ImageScrollerH';
+<!--                    -->export default function App() {
+<!--                    -->  const imagesMap = {
+<!--                    -->    chiot1: require("../assets/chiot1.jpg"),
+<!--                    -->    chiot2: require("../assets/chiot2.jpg"),
+<!--                    -->    chiot3: require("../assets/chiot3.jpg"),
+<!--                    -->  }
+<!--                    -->  return (
+<!--                    -->        &lt;ImageScrollerH
+<!--                    -->          names = {["chiot1","chiot2","chiot3"]}
+<!--                    -->          mapping = {imagesMap}
+<!--                    -->        /&gt;
+<!--                    -->      );
+<!--                    -->}
+                        </code></pre>
+                    </li>
+                </ol>
+                <pre>
+                    <code class="language-jsx">
+
+                    </code>
+                </pre>
+            </div>
             </div>
         </div>
         <div w3-include-html="includes/vertNavBar.html"></div> 
