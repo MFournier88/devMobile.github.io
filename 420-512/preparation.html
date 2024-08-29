@@ -46,15 +46,236 @@
 <!--                -->
 <!--                --># Choisissez blank comme template
 <!--                -->
-<!--                -->cd <nomDuProjet>
+<!--                -->cd 'nomDuProjet'
 <!--                -->
 <!--                -->npx expo start
                     </code></pre>
                 <p>Si tout c'est bien passée vous devriez voir un code QR. Il est maintenant temps d'installer Expo Go sur votre appareil mobile.</p>
                 <p>Après l'installation, vous pouvez scanner le code QR et voir l'application de base se déployer sur votre mobile.</p>
-            </div>
-        </div>
+                <p>Installez l'extension sur vscode <span class="inline-code">ES7+ React/Redux/React-Native snippets</span></p>
+                <p>Nous allons éventuellement avoir besoin de expo-router pour du "routing",<pre><code class="language-bash">npx expo install expo-router</code></pre> 
+                    Ensuite créez un dossier nommé app et copier le contenu de App.js dans un fichier nommé index.jsx. 
+                    Vous devez également ajouter <span class="inline-code"><span class="jskey">"main":</span>  "expo-router/entry",</span> dans package.json
+                </p>
+                <p>Créez maintenant un fichier dans app nommez <span class="inline-code">_layout.jsx</span>. Il contiendra l'information qui doit être dans toutes les pages tel que navbar, header, footer ... Dans ce fichier faites <span class="inline-code">rnfes + enter</span>pour rapidement mettre le code de base d'un .jsx</p>
+                <p>Dans ce fichier, sélectionner le <span class="inline-code">_layout</span> qui se trouve après const. Une fois sélectionné, faites <span class="inline-code">ctrl + d</span> x2 pour sélectionner les 2 autres dans le fichier puis tappez RootLayout. Vous remarquerez que tous les _layout sont devenus RootLayout.</p>
 
+                <hr>
+
+                <h3>Style</h3>
+
+                <p>Vous pouvez écrire des styles directement comme ceci :</p>
+                <pre><code class="language-jsx">
+<!--            -->import { StyleSheet, Text, View } from 'react-native'
+<!--            -->import React from 'react'
+<!--            -->
+<!--            -->const RootLayout = () => {
+<!--            -->    return (
+<!--            -->    &lt;View style={{flex: 1,justifyContent:'center'}}&gt;
+<!--            -->      &lt;Text&gt;RootLayout&lt;/Text&gt;
+<!--            -->    &lt;/View&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default RootLayout
+<!--            -->
+<!--            -->const styles = StyleSheet.create({})
+                </code></pre>
+
+                <pre><code class="language-jsx">
+<!--            -->import { StyleSheet, Text, View } from 'react-native'
+<!--            -->import React from 'react'
+<!--            -->
+<!--            -->const RootLayout = () =&gt; {
+<!--            -->  return (
+<!--            -->    &lt;View style={styles.container}&gt;
+<!--            -->      &lt;Text&gt;RootLayout&lt;/Text&gt;
+<!--            -->    &lt;/View&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default RootLayout
+<!--            -->
+<!--            -->const styles = StyleSheet.create({
+<!--            -->    container:{
+<!--            -->        display: 'flex',
+<!--            -->        flex: 1,
+<!--            -->        alignItems:'center',
+<!--            -->        justifyContent: 'center'
+<!--            -->    }
+<!--            -->})
+                </code></pre>
+
+                <h5>const styles = StyleSheet.create({ ... }) </h5>
+
+                <p>Cette ligne crée un objet de styles à l'aide de la méthode create de StyleSheet. Cela permet de définir des styles que vous pouvez appliquer à vos composants React Native.
+                container: { ... } :</p>
+
+                <p>Ici, container est un nom de style que vous pouvez utiliser pour styliser un composant. Le nom est choisi librement et peut être utilisé comme une clé pour accéder à ces styles.</p>
+                
+                <h5>display: 'flex' </h5>
+
+                <p>La propriété display: 'flex' est utilisée pour spécifier que le conteneur utilise le modèle de mise en page Flexbox. En Flexbox, les éléments enfants sont disposés de manière flexible selon les propriétés de style définies.</p>
+                <h5>flex: 1 </h5>
+
+                <p>La propriété flex: 1 indique que le conteneur doit occuper tout l'espace disponible dans son parent. Cela signifie que le conteneur se dilatera pour remplir l'espace restant.</p>
+                <h5>alignItems: 'center' </h5>
+
+                <p>La propriété alignItems: 'center' aligne les éléments enfants du conteneur au centre de l'axe transversal (l'axe perpendiculaire à la direction principale du Flexbox). Pour un conteneur en colonne (axe principal vertical), cela aligne les éléments horizontalement au centre.</p>
+                <h5>justifyContent: 'center' </h5>
+
+                <p>La propriété justifyContent: 'center' aligne les éléments enfants du conteneur au centre de l'axe principal (l'axe dans la direction de la flexibilité). Pour un conteneur en colonne, cela aligne les éléments verticalement au centre.</p>
+            
+                <p>Pour plus de style fiez vous à la <a href="https://docs.expo.dev/develop/user-interface/color-themes/">documentation de expo</a>, la <a href="https://reactnative.dev/docs/style">documentation de React-Native</a>, mais aussi à <a href="https://chatgpt.com/">ChatGpt</a></p>
+                <!--Note to self : talk about nativewind someday-->
+                <hr>
+
+                <h3>Stack</h3>
+                <p>En se moment c'est uniquement _layout.jsx qui est affiché. Nous voulons incorporer à cette page index.js</p>
+                <p>Nous allons utiliser les Stack de expo-router.</p>
+
+                <pre><code class="language-jsx">
+<!--            -->import { StyleSheet, Text, View } from 'react-native'
+<!--            -->import { Stack } from 'expo-router'
+<!--            -->
+<!--            -->const RootLayout = () =&gt; {
+<!--            -->  return (
+<!--            -->    //Il doit y avoir 1 seul élément retourner, 
+<!--            -->    //on peut mettre des balises vides qui entourent
+<!--            -->    //le reste du code.        
+<!--            -->    &lt;&gt;
+<!--            -->        &lt;Text&gt;Hello from layout&lt;/Text&gt;
+<!--            -->        &lt;Stack&gt;
+<!--            -->            &lt;Stack.Screen name="index" options={{headerShown: false}} /&gt;
+<!--            -->        &lt;/Stack&gt;
+<!--            -->    &lt;/&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default RootLayout
+                </code></pre>
+                <hr>
+                <h3>SafeAreaView</h3>
+                <p>Nous allons règler le fait que le layout sort possiblement de votre écran tout dépendant de votre téléphone</p>
+                <p>Il va falloir utiliser SafeAreaView en installant <span class="inline-code"><span class="cmd">npm install </span> react-native-safe-area-context</span></p>
+                <p>Dans _layout.jsx remplacer view par SafeAreaView et regarder la différence en haut de l'écran</p>
+                <pre><code class="language-jsx">
+<!--            -->import { StyleSheet, Text, View } from 'react-native'
+<!--            -->import { Stack } from 'expo-router'
+<!--            -->import { SafeAreaView } from "react-native-safe-area-context";
+<!--            -->
+<!--            -->const RootLayout = () =&gt; {
+<!--            -->  return (
+<!--            -->    &lt;&gt;
+<!--            -->        &lt;SafeAreaView&gt;
+<!--            -->            &lt;Text&gt;Hello from layout&lt;/Text&gt;
+<!--            -->        &lt;/SafeAreaView&gt;
+<!--            -->        &lt;Stack&gt;
+<!--            -->            &lt;Stack.Screen name="index" options={{headerShown: false}} /&gt;
+<!--            -->        &lt;/Stack&gt;
+<!--            -->    &lt;/&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default RootLayout
+                </code></pre>
+                <hr>
+                <h3>Core components</h3>
+                <p class="soustitre sousligner">View :</p>
+                <p>Conteneur principal pour le layout et le style. Utilisé pour organiser et envelopper d'autres composants. Crée des mises en page flexibles et gère les dispositions des éléments enfants.</p>
+               
+                <p class="soustitre sousligner">Text :</p>
+                <p>Affiche du texte à l'écran. Permet de personnaliser le texte avec différentes propriétés de style.</p>
+
+                <p class="soustitre sousligner">Image :</p>
+                <p>Affiche des images dans l'application. Supporte différents formats d'images et peut gérer les images locales ou distantes. Peut être redimensionnée et stylisée.</p>
+                
+                <p class="soustitre sousligner">ScrollView :</p>
+                <p>Permet le défilement du contenu lorsque celui-ci dépasse la taille visible de l'écran. Utile pour les longues listes ou contenus volumineux.</p>
+
+                <p class="soustitre sousligner">TextInput :</p>
+                            
+                <p>Permet à l'utilisateur de saisir du texte. Supporte différents types de clavier et comportements de saisie. Utilisé pour les champs de formulaire, les barres de recherche, ou tout autre endroit nécessitant une entrée de texte.</p>
+            </div>
+            <div class="exercice">
+                <p>Reproduisez une application selon le UI suivant:</p>
+                <div class="row">
+                    <div class="col-12 col-sm-4 image-container">
+                        <img src="/devMobile.github.io/images/golden.jpg"/>
+                    </div>
+                    <div class="col-12 col-sm-4 image-container">
+                        <img src="/devMobile.github.io/images/corgie.jpg"/>
+                    </div>
+                    <div class="col-12 col-sm-4 image-container">
+                        <img src="/devMobile.github.io/images/rottweiler.jpg"/>
+                    </div>
+                </div>
+                
+            </div>
+            <!-- <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button> -->
+            <div class="solution hidden" id="solutionExo1">
+                <pre>
+                    <code class="language-jsx">
+<!--                   -->import { StatusBar } from 'expo-status-bar';
+<!--                   -->import { StyleSheet, Text, View, Image, ScrollView} from 'react-native';
+<!--                   -->
+<!--                   -->export default function App() {
+<!--                   -->    return (
+<!--                   -->    &lt;ScrollView 
+<!--                   -->        horizontal
+<!--                   -->        contentContainerStyle={{flexDirection:'row'}}
+<!--                   -->        style={styles.scroll}
+<!--                   -->    &gt;
+<!--                   -->        &lt;View style={styles.container}&gt;
+<!--                   -->        &lt;Image 
+<!--                   -->            style={styles.image}
+<!--                   -->            source={require('../assets/chiot1.jpg')} /&gt;
+<!--                   -->        &lt;Text style={styles.text}&gt;Golden&lt;/Text&gt;
+<!--                   -->        &lt;/View&gt;
+<!--                   -->        &lt;View style={styles.container}&gt;
+<!--                   -->        &lt;Image 
+<!--                   -->            style={styles.image}
+<!--                   -->            source={require('../assets/chiot2.jpg')} /&gt;
+<!--                   -->        &lt;Text style={styles.text}&gt;Corgie?&lt;/Text&gt;
+<!--                   -->        &lt;/View&gt;
+<!--                   -->        &lt;View style={styles.container}&gt;
+<!--                   -->        &lt;Image 
+<!--                   -->            style={styles.image}
+<!--                   -->            source={require('../assets/chiot3.jpg')} /&gt;
+<!--                   -->        &lt;Text style={styles.text}&gt;Rottweiler&lt;/Text&gt;
+<!--                   -->        &lt;/View&gt;
+<!--                   -->    &lt;/ScrollView&gt;
+<!--                   -->    
+<!--                   -->    );
+<!--                   -->}
+<!--                   -->
+<!--                   -->const styles = StyleSheet.create({
+<!--                   -->    container: {
+<!--                   -->    alignItems: 'center',
+<!--                   -->    justifyContent: 'center',
+<!--                   -->    padding:10,
+<!--                   -->    },
+<!--                   -->    image: {
+<!--                   -->    height:400,
+<!--                   -->    width: 300, 
+<!--                   -->    resizeMode: 'contain'
+<!--                   -->    },
+<!--                   -->    scroll:{
+<!--                   -->    flex:1,
+<!--                   -->    backgroundColor:'#fff',
+<!--                   -->    },
+<!--                   -->    text: {
+<!--                   -->    fontSize: 18,
+<!--                   -->    textAlign: 'center',
+<!--                   -->    marginTop: 10,
+<!--                   -->    },
+<!--                   -->});
+                    </code>
+                </pre>
+            </div>
+            
+
+        </div>
     <div w3-include-html="includes/vertNavBar.html"></div> 
     <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
         

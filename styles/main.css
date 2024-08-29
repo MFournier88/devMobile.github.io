@@ -31,6 +31,13 @@ body{
     color: var(--purple-8);
     border-bottom: 2px solid var(--purple-7);
 }
+.flex{
+    display:flex;
+}
+
+.formatOneLine span{
+    padding: 0 10px 0 0;
+}
 i{
     font-weight: 700;
 }
@@ -81,6 +88,9 @@ i{
     width: calc(100% - var(--rightNavSize));
     
 }
+.gras{
+    font-weight: bold;
+}
 html{
     height:100%
 }
@@ -101,6 +111,12 @@ html{
 .navbar.fixed-top{
     right: var(--rightNavSize); /* Align to the right side */
 }
+.sousligner{
+    text-decoration: underline;
+}
+p.soustitre{
+    font-size: x-large;
+}
 pre {
     margin: 0;
     padding: 0;
@@ -118,13 +134,7 @@ pre code {
     padding: 0px 20px;
    
 }
-.flex{
-    display:flex;
-}
 
-.formatOneLine span{
-    padding: 0 10px 0 0;
-}
 .safe-area-container{
     padding-top: 80px; /* Adjust this value to match your navbar height */
     padding-bottom: 60px;
@@ -144,6 +154,7 @@ pre code {
     color: var(--blue-8);
     border-bottom: 2px solid var(--blue-7);
 }
+
 .btn.solutionButton{
     margin: 40px 0;
     border: 2px solid var(--blue-6);
