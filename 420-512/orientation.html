@@ -1,0 +1,145 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>Orientation - Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <hr>
+                <h2>Orientation</h2>
+                <hr>
+                <p>D'abords il vous faut installer la librairie <i>expo-screen-orientation</i> => <span class="inline-code"><span class="cmd">npm install</span> expo-screen-orientation</span></p>
+                <p>Ensuite modifier le fichier app.json pour que les propiétées <i>orientation</i> et <i>infoPlist</i> soit comme dans cet exemple :</p>
+                <pre><code class="language-json">
+<!--            -->{
+<!--            -->  "expo": {
+<!--            -->    "name": "app1",
+<!--            -->    "slug": "app1",
+<!--            -->    "scheme": "app1",
+<!--            -->    "version": "1.0.0",
+<!--            -->    "orientation": "default",
+<!--            -->    "icon": "./assets/icon.png",
+<!--            -->    "userInterfaceStyle": "light",
+<!--            -->    "splash": {
+<!--            -->      "image": "./assets/splash.png",
+<!--            -->      "resizeMode": "contain",
+<!--            -->      "backgroundColor": "#ffffff"
+<!--            -->    },
+<!--            -->    "ios": {
+<!--            -->      "supportsTablet": true,
+<!--            -->      "infoPlist": {
+<!--            -->        "UISupportedInterfaceOrientations": [
+<!--            -->          "UIInterfaceOrientationPortrait",
+<!--            -->          "UIInterfaceOrientationLandscapeLeft",
+<!--            -->          "UIInterfaceOrientationLandscapeRight"
+<!--            -->        ]
+<!--            -->      }
+<!--            -->    },
+<!--            -->    "android": {
+<!--            -->      "adaptiveIcon": {
+<!--            -->        "foregroundImage": "./assets/adaptive-icon.png",
+<!--            -->        "backgroundColor": "#ffffff"
+<!--            -->      },
+<!--            -->       "orientation": "default"
+<!--            -->    },
+<!--            -->    "web": {
+<!--            -->      "favicon": "./assets/favicon.png"
+<!--            -->    },
+<!--            -->    "plugins": [
+<!--            -->      "expo-router"
+<!--            -->    ]
+<!--            -->  }
+<!--            --> }
+      
+            </code></pre>
+
+            <p>Voici le code pour faire fonctionner le tout : </p>
+            <pre><code class="language-jsx">
+<!--        -->import React, { useEffect, useState } from 'react';
+<!--        -->import { View, Text, StyleSheet } from 'react-native';
+<!--        -->import * as ScreenOrientation from 'expo-screen-orientation';
+<!--        -->
+<!--        -->const App = () => {
+<!--        -->  const [orientation, setOrientation] = useState('UNKNOWN');
+<!--        -->
+<!--        -->  useEffect(() => {
+<!--        -->    // Add event listener for orientation changes
+<!--        -->    const subscription = ScreenOrientation.addOrientationChangeListener(handleOrientationChange);
+<!--        -->
+<!--        -->    // Cleanup the event listener on component unmount
+<!--        -->    return () => {
+<!--        -->      ScreenOrientation.removeOrientationChangeListener(subscription);
+<!--        -->    };
+<!--        -->  }, []);
+<!--        -->
+<!--        -->  const handleOrientationChange = async (event) => {
+<!--        -->    const currentOrientation = event.orientationInfo.orientation;
+<!--        -->
+<!--        -->    switch (currentOrientation) {
+<!--        -->      case ScreenOrientation.Orientation.PORTRAIT_UP:
+<!--        -->        setOrientation('PORTRAIT_UP');
+<!--        -->        break;
+<!--        -->      case ScreenOrientation.Orientation.PORTRAIT_DOWN:
+<!--        -->        setOrientation('PORTRAIT_DOWN');
+<!--        -->        break;
+<!--        -->      case ScreenOrientation.Orientation.LANDSCAPE_LEFT:
+<!--        -->        setOrientation('LANDSCAPE_LEFT');
+<!--        -->        break;
+<!--        -->      case ScreenOrientation.Orientation.LANDSCAPE_RIGHT:
+<!--        -->        setOrientation('LANDSCAPE_RIGHT');
+<!--        -->        break;
+<!--        -->      default:
+<!--        -->        setOrientation('UNKNOWN');
+<!--        -->    }
+<!--        -->  };
+<!--        -->
+<!--        -->  return (
+<!--        -->    &lt;View style={styles.container}&gt;
+<!--        -->      &lt;Text&gt;Current Orientation: {orientation}&lt;/Text&gt;
+<!--        -->    &lt;/View&gt;
+<!--        -->  );
+<!--        -->};
+<!--        -->
+<!--        -->const styles = StyleSheet.create({
+<!--        -->  container: {
+<!--        -->    flex: 1,
+<!--        -->    justifyContent: 'center',
+<!--        -->    alignItems: 'center',
+<!--        -->  },
+<!--        -->});
+<!--        -->
+<!--        -->export default App;
+            </code></pre>
+            </div>
+        </div>
+        <div w3-include-html="includes/vertNavBar.html"></div> 
+        <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    
+</body>
+</html>

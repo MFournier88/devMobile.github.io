@@ -1,0 +1,298 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>Hooks - Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <hr>
+                <h2>Hooks</h2>
+                <hr>
+                <p><span class="gras">Ceux que nous verrons cette semaine :</span></p>
+                <hr class="marginside">
+                <p><span class="gras">useState : </span></p>
+                <ul>
+                    <li>
+                        Permet d'ajouter un état local à un composant fonctionnel. Il retourne un tableau contenant l'état actuel et une fonction pour le mettre à jour.
+                        <pre><code class="language-jsx">
+<!--                    -->const [compteur, setCompteur] = useState(0);
+                        </code></pre>
+                    </li> 
+                </ul>
+                <p><span class="gras">useEffect : </span></p>
+                <ul>
+                    <li>EXPLICATION
+                        <pre><code class="language-jsx">
+<!--                    -->useEffect(() => {
+<!--                    -->    console.log('Composant monté ou mis à jour');
+<!--                    -->  }, [compteur]); // Se déclenche lorsque `compteur` change
+                        </code></pre>
+                    </li>
+                </ul>
+                <hr class="section">
+                <p><span class="gras">Ceux que nous verrons plus tard :</span></p>
+                <hr class="marginside">
+                <p><span class="gras">useContext : </span></p>
+                <ul>
+                    <li>Permet d'accéder au contexte (context) dans un composant fonctionnel. Le contexte est une manière de partager des données (comme un thème ou un utilisateur authentifié) entre plusieurs composants sans avoir à passer explicitement des props.
+                        <pre><code class="language-jsx">
+<!--                    -->const theme = useContext(ThemeContext);
+                        </code></pre>
+                    </li>
+                </ul>
+                <p><span class="gras">useCallback : </span></p>
+                <ul>
+                    <li>Retourne une version mémorisée (cached) d'une fonction, qui ne change que si l'une des dépendances a changé. Utile pour éviter des re-rendus inutiles de composants enfants lorsque des fonctions sont passées en props.
+                        <pre><code class="language-jsx">
+<!--                    -->const handleClick = useCallback(() => {
+<!--                    -->  console.log('Clicked');
+<!--                    -->}, [compteur]);
+                        </code></pre>
+                    </li>
+                </ul>
+                <p><span class="gras">useMemo : </span></p>
+                <ul>
+                    <li>Retourne une valeur mémorisée. Utilisé pour optimiser les performances en évitant de recalculer des valeurs coûteuses lorsque ce n'est pas nécessaire.
+                        <pre><code class="language-jsx">
+<!--                    -->const valeurMemo = useMemo(() => calculCoûteux(compteur), [compteur]);
+                        </code></pre>
+                    </li>
+                </ul>
+                <hr class="section">
+                <p><span class="gras">Ceux que nous verrons si nous avons le temps et si le besoin se présente :</span></p>
+                <hr class="marginside">
+                <p><span class="gras">useReducer : </span></p>
+                <ul>
+                    <li>Semblable à useState, mais plus adapté à des états complexes ou lorsque la logique de mise à jour de l'état est complexe. Il prend un réducteur (reducer) et un état initial, et retourne l'état actuel ainsi qu'une fonction pour le mettre à jour.
+                        <pre><code class="language-jsx">
+<!--                    -->const [state, dispatch] = useReducer(reducer, initialState);
+                        </code></pre>
+                    </li>
+                </ul>
+                
+                <p><span class="gras">useRef : </span></p>
+                <ul>
+                    <li>Retourne un objet ref mutable dont la propriété .current est initialisée à la valeur passée en argument. Il est utilisé pour accéder directement aux éléments DOM ou pour stocker des valeurs persistantes entre les rendus sans causer de re-rendus.
+                        <pre><code class="language-jsx">
+<!--                    -->const inputRef = useRef(null);
+                        </code></pre>
+                    </li>
+                </ul>
+                <p><span class="gras">useImperativeHandle : </span></p>
+                <ul>
+                    <li>Personnalise la valeur de ref exposée aux composants parents lorsqu'un composant utilise forwardRef. Il permet de contrôler quelles propriétés et méthodes sont exposées.
+                        <pre><code class="language-jsx">
+<!--                    -->useImperativeHandle(ref, () => ({
+<!--                    -->  focus: () => {
+<!--                    -->    inputRef.current.focus();
+<!--                    -->  }
+<!--                    -->}));
+                        </code></pre>
+                    </li>
+                </ul>
+                <p><span class="gras">useDebugValue : </span></p>
+                <ul>
+                    <li>Utilisé pour afficher une étiquette de débogage pour un hook personnalisé. Principalement utile lors du développement pour mieux comprendre l'état interne de vos hooks.
+                        <pre><code class="language-jsx">
+<!--                    -->useDebugValue(isOnline ? 'Online' : 'Offline');
+                        </code></pre>
+                    </li>
+                </ul>
+                <p><span class="gras">useLayoutEffect : </span></p>
+                <ul>
+                    <li>Semblable à useEffect, mais s'exécute de manière synchrone après toutes les mutations du DOM. Utilisé pour les opérations qui doivent se produire avant le rendu à l'écran.
+                        <pre><code class="language-jsx">
+<!--                    -->useLayoutEffect(() => {
+<!--                    -->    console.log('DOM modifié');
+<!--                    -->  }, [compteur]);
+                        </code></pre>
+                    </li>
+                </ul>
+                <pre><code class="language-jsx">
+<!--            -->import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+<!--            -->import React, {useState} from 'react'
+<!--            -->
+<!--            -->const Test = () =&gt; {
+<!--            -->  const [count, setCount] = useState(0);
+<!--            -->  const handlePress = () =&gt; {
+<!--            -->    setCount(count + 1);
+<!--            -->  }
+<!--            -->  return (
+<!--            -->    &lt;View style={styles.container}&gt;
+<!--            -->      &lt;Text&gt;Vous avez appuyé { count } fois&lt;/Text&gt;
+<!--            -->      &lt;TouchableOpacity onPress={handlePress} style={styles.button}&gt;
+<!--            -->        &lt;Text&gt;+1&lt;/Text&gt;
+<!--            -->      &lt;/TouchableOpacity&gt;
+<!--            -->    &lt;/View&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default Test
+<!--            -->
+<!--            -->const styles = StyleSheet.create({
+<!--            -->  container:{
+<!--            -->    justifyContent:"center",
+<!--            -->    alignItems:"center",
+<!--            -->    flex:1,
+<!--            -->  },
+<!--            -->  button:{
+<!--            -->    marginVertical:120,
+<!--            -->    paddingVertical: 12,
+<!--            -->    paddingHorizontal:30,
+<!--            -->    justifyContent:"center",
+<!--            -->    alignItems:"center",
+<!--            -->    backgroundColor: 'red',
+<!--            -->    minWidth:"auto",
+<!--            -->    borderRadius:10,
+<!--            -->  }
+<!--            -->})
+                </code></pre>
+                <hr class="marginside">
+                <h3>useState - en détail</h3>
+                <hr>
+                <p>useState est l'un des hooks les plus fondamentaux et les plus utilisés en React, y compris en React Native. Il permet d'ajouter un état local à un composant fonctionnel, c'est-à-dire de stocker et de gérer des données qui peuvent changer au fil du temps et déclencher des re-rendus du composant.</p>
+                <p><span class="gras">Syntaxe:</span></p>
+                <p><pre><code class="language-jsx">const [etat, setEtat] = useState(valeurInitiale);</code></pre></p>
+                <p><span class="gras">Exemple simple : </span></p>
+                <p>Imaginons que vous souhaitiez créer un compteur qui s'incrémente à chaque fois qu'un utilisateur clique sur un bouton.</p>
+                <pre><code class="language-jsx">
+<!--            -->import React, { useState } from 'react';
+<!--            -->import { Text, Button, View } from 'react-native';
+<!--            -->
+<!--            -->const Compteur = () =&gt; {
+<!--            -->  // Initialisation de l'état avec useState
+<!--            -->  const [compteur, setCompteur] = useState(0);
+<!--            -->
+<!--            -->  return (
+<!--            -->    &lt;View&gt;
+<!--            -->      &lt;Text&gt;Vous avez cliqué {compteur} fois&lt;/Text&gt;
+<!--            -->      &lt;Button
+<!--            -->        title="Cliquez-moi"
+<!--            -->        onPress={() =&gt; setCompteur(compteur + 1)}
+<!--            -->      /&gt;
+<!--            -->    &lt;/View&gt;
+<!--            -->  );
+<!--            -->};
+<!--            -->
+<!--            -->export default Compteur;
+<!--            -->
+                </code></pre>
+                <h5>Explication de l'exemple :</h5>
+                <p><span class="gras">Initialisation de l'état :</span></p>
+                <p><i>useState(0)</i> initialise l'état compteur à 0.</p>
+                <p><i>compteur</i> est la variable qui contient la valeur actuelle de l'état. </p>
+                <p><i>setCompteur</i> est la fonction utilisée pour mettre à jour la valeur de compteur.</p>
+                <p><span class="gras">Mise à jour de l'état :</span></p>
+                <p>Lorsque l'utilisateur clique sur le bouton, setCompteur(compteur + 1) est appelé, ce qui incrémente compteur de 1 et provoque le re-rendu du composant avec la nouvelle valeur.</p>
+                <p><span class="gras">Re-rendu du composant :</span></p>
+                <p>À chaque fois que setCompteur est appelé avec une nouvelle valeur, le composant est re-rendu, et la nouvelle valeur de compteur est affichée.</p>
+
+                <h5>Caractéristiques importantes de useState :</h5>
+                <p><span class="gras">Persistant au sein du composant :</span></p>
+                <p>L'état persiste à travers les re-rendus du composant. Cela signifie que même si le composant est re-rendu plusieurs fois, l'état conserve sa valeur.</p>
+                <p><span class="gras">Indépendant pour chaque instance de composant :</span> Chaque instance d'un composant avec un useState distinct a son propre état. Si vous avez plusieurs instances d'un composant, chacune gérera son propre état séparément.</p>
+                <hr class="marginside">
+                <h5>useEffect</h5>
+                <p><i>useEffect</i> vous permet d'exécuter du code en réponse à des changements dans le composant.</p>
+                <pre><code class="language-jsx">
+<!--            -->useEffect(() =&gt; {
+<!--            -->    // Code à exécuter (effet)
+<!--            -->    return () =&gt; {
+<!--            -->      // Code de nettoyage (optionnel)
+<!--            -->    };
+<!--            -->  }, [dépendances]);
+                </code></pre>
+                <p><span class="gras">Types utilisations : </span></p>
+                <p><i>Sans dépendances :</i></p>
+                <p>Exécution à chaque rendu : Si vous n'incluez pas de tableau de dépendances, l'effet sera exécuté après chaque rendu du composant.</p>
+                <p><i>Avec un tableau de dépendances vide :</i></p>
+                <p>Exécution une seule fois : En fournissant un tableau de dépendances vide, l'effet sera exécuté une seule fois après le premier rendu du composant</p>
+                <p><i>Avec des dépendances spécifiques :</i></p>
+                
+                <p>Exécution lorsque les dépendances changent : En passant un tableau de dépendances contenant certaines variables ou états, l'effet ne sera ré-exécuté que lorsque l'une de ces dépendances change.</p>
+
+                <div class="exercice">
+                    <p>Faites un code à partir de l'exemple de useState qui agi ainsi: lorsque le compteur est un chiffre pair, le bouton est bleu, lorsque le compteur est impair, le bouton est vert.</p>
+                </div>
+            </div>
+
+        </div>
+        <div w3-include-html="includes/vertNavBar.html"></div> 
+        <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    
+</body>
+</html>
+<!-- import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+const GridExample = () => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.box}>1</Text>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.box}>2</Text>
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.column}>
+          <Text style={styles.box}>3</Text>
+        </View>
+        <View style={styles.column}>
+          <Text style={styles.box}>4</Text>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+  column: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  box: {
+    backgroundColor: 'lightblue',
+    padding: 20,
+    textAlign: 'center',
+  },
+});
+
+export default GridExample; -->
