@@ -72,64 +72,7 @@
 <!--            --> }
       
             </code></pre>
-
-            <p>Voici le code pour faire fonctionner le tout : </p>
-            <pre><code class="language-jsx">
-<!--        -->import React, { useEffect, useState } from 'react';
-<!--        -->import { View, Text, StyleSheet } from 'react-native';
-<!--        -->import * as ScreenOrientation from 'expo-screen-orientation';
-<!--        -->
-<!--        -->const App = () => {
-<!--        -->  const [orientation, setOrientation] = useState('UNKNOWN');
-<!--        -->
-<!--        -->  useEffect(() => {
-<!--        -->    // Add event listener for orientation changes
-<!--        -->    const subscription = ScreenOrientation.addOrientationChangeListener(handleOrientationChange);
-<!--        -->
-<!--        -->    // Cleanup the event listener on component unmount
-<!--        -->    return () => {
-<!--        -->      ScreenOrientation.removeOrientationChangeListener(subscription);
-<!--        -->    };
-<!--        -->  }, []);
-<!--        -->
-<!--        -->  const handleOrientationChange = async (event) => {
-<!--        -->    const currentOrientation = event.orientationInfo.orientation;
-<!--        -->
-<!--        -->    switch (currentOrientation) {
-<!--        -->      case ScreenOrientation.Orientation.PORTRAIT_UP:
-<!--        -->        setOrientation('PORTRAIT_UP');
-<!--        -->        break;
-<!--        -->      case ScreenOrientation.Orientation.PORTRAIT_DOWN:
-<!--        -->        setOrientation('PORTRAIT_DOWN');
-<!--        -->        break;
-<!--        -->      case ScreenOrientation.Orientation.LANDSCAPE_LEFT:
-<!--        -->        setOrientation('LANDSCAPE_LEFT');
-<!--        -->        break;
-<!--        -->      case ScreenOrientation.Orientation.LANDSCAPE_RIGHT:
-<!--        -->        setOrientation('LANDSCAPE_RIGHT');
-<!--        -->        break;
-<!--        -->      default:
-<!--        -->        setOrientation('UNKNOWN');
-<!--        -->    }
-<!--        -->  };
-<!--        -->
-<!--        -->  return (
-<!--        -->    &lt;View style={styles.container}&gt;
-<!--        -->      &lt;Text&gt;Current Orientation: {orientation}&lt;/Text&gt;
-<!--        -->    &lt;/View&gt;
-<!--        -->  );
-<!--        -->};
-<!--        -->
-<!--        -->const styles = StyleSheet.create({
-<!--        -->  container: {
-<!--        -->    flex: 1,
-<!--        -->    justifyContent: 'center',
-<!--        -->    alignItems: 'center',
-<!--        -->  },
-<!--        -->});
-<!--        -->
-<!--        -->export default App;
-            </code></pre>
+            <p>Maintenant vous devez faire attention pour que votre affichage soit décent dans toutes les orientations.</p>
             </div>
         </div>
         <div w3-include-html="includes/vertNavBar.html"></div> 

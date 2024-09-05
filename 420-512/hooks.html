@@ -128,45 +128,7 @@
                         </code></pre>
                     </li>
                 </ul>
-                <pre><code class="language-jsx">
-<!--            -->import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-<!--            -->import React, {useState} from 'react'
-<!--            -->
-<!--            -->const Test = () =&gt; {
-<!--            -->  const [count, setCount] = useState(0);
-<!--            -->  const handlePress = () =&gt; {
-<!--            -->    setCount(count + 1);
-<!--            -->  }
-<!--            -->  return (
-<!--            -->    &lt;View style={styles.container}&gt;
-<!--            -->      &lt;Text&gt;Vous avez appuyé { count } fois&lt;/Text&gt;
-<!--            -->      &lt;TouchableOpacity onPress={handlePress} style={styles.button}&gt;
-<!--            -->        &lt;Text&gt;+1&lt;/Text&gt;
-<!--            -->      &lt;/TouchableOpacity&gt;
-<!--            -->    &lt;/View&gt;
-<!--            -->  )
-<!--            -->}
-<!--            -->
-<!--            -->export default Test
-<!--            -->
-<!--            -->const styles = StyleSheet.create({
-<!--            -->  container:{
-<!--            -->    justifyContent:"center",
-<!--            -->    alignItems:"center",
-<!--            -->    flex:1,
-<!--            -->  },
-<!--            -->  button:{
-<!--            -->    marginVertical:120,
-<!--            -->    paddingVertical: 12,
-<!--            -->    paddingHorizontal:30,
-<!--            -->    justifyContent:"center",
-<!--            -->    alignItems:"center",
-<!--            -->    backgroundColor: 'red',
-<!--            -->    minWidth:"auto",
-<!--            -->    borderRadius:10,
-<!--            -->  }
-<!--            -->})
-                </code></pre>
+                
                 <hr class="marginside">
                 <h3>useState - en détail</h3>
                 <hr>
@@ -211,6 +173,116 @@
                 <p><span class="gras">Persistant au sein du composant :</span></p>
                 <p>L'état persiste à travers les re-rendus du composant. Cela signifie que même si le composant est re-rendu plusieurs fois, l'état conserve sa valeur.</p>
                 <p><span class="gras">Indépendant pour chaque instance de composant :</span> Chaque instance d'un composant avec un useState distinct a son propre état. Si vous avez plusieurs instances d'un composant, chacune gérera son propre état séparément.</p>
+                <div class="exercice">
+                  <p>Faites un code à partir de l'exemple de useState qui agi ainsi: lorsque le compteur est un chiffre pair, le bouton est bleu, lorsque le compteur est impair, le bouton est vert.</p>
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      <img src="/devMobile.github.io/images/exo1Hooks.png" style="object-fit: contain;width:100%;height:auto;max-height:600px"  alt="">
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <img src="/devMobile.github.io/images/exo1Hooks2.png" style="object-fit: contain;width:100%;height:auto;max-height:600px" alt="">
+                    </div>
+                  </div>
+                  
+                </div>
+                <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button>
+                <div class="solution hidden" id="solutionExo1">
+                  <ol>
+                    <li>  
+                      <pre><code class="language-jsx">
+<!--                  -->import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+<!--                  -->import React, {useState, useEffect} from 'react'
+<!--                  -->import ButtonAddOne from '../components/buttonAddOne';
+<!--                  -->
+<!--                  -->const Test = () =&gt; {
+<!--                  -->  const [count, setCount] = useState(0);
+<!--                  -->  const [colorButton, setColorButton] = useState("blue")
+<!--                  -->  const handlePress = () =&gt; {
+<!--                  -->    setCount(count + 1);
+<!--                  -->  }
+<!--                  -->  useEffect(() =&gt; {
+<!--                  -->    if(count%2 == 0){
+<!--                  -->      setColorButton("blue")
+<!--                  -->    }else{
+<!--                  -->      setColorButton("green")
+<!--                  -->    }
+<!--                  -->  }, [count])
+<!--                  -->  return (
+<!--                  -->    &lt;View style={styles.container}&gt;
+<!--                  -->      &lt;Text style={styles.label}&gt;Vous avez appuyé { count } fois&lt;/Text&gt;
+<!--                  -->      &lt;ButtonAddOne onPress={handlePress} style={[styles,{backgroundColor:colorButton}]} /&gt;
+<!--                  -->    &lt;/View&gt;
+<!--                  -->  )
+<!--                  -->}
+<!--                  -->
+<!--                  -->export default Test
+<!--                  -->
+<!--                  -->const styles = StyleSheet.create({
+<!--                  -->  container:{
+<!--                  -->    justifyContent:"center",
+<!--                  -->    alignItems:"center",
+<!--                  -->    flex:1,
+<!--                  -->  },
+<!--                  -->  button:{
+<!--                  -->    marginVertical:60,
+<!--                  -->    paddingVertical: 12,
+<!--                  -->    paddingHorizontal:30,
+<!--                  -->    minWidth:"auto",
+<!--                  -->    borderRadius:10,
+<!--                  -->  },
+<!--                  -->  label:{
+<!--                  -->    marginVertical:60,
+<!--                  -->  }
+<!--                  -->})
+                      </code></pre>
+                    </li>
+                    <li>
+                      <pre><code class="language-jsx">
+<!--                  -->import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+<!--                  -->import React, {useState, useEffect} from 'react'
+<!--                  -->import ButtonAddOne from '../components/buttonAddOne';
+<!--                  -->
+<!--                  -->const Test = () => {
+<!--                  -->  const [count, setCount] = useState(0);
+<!--                  -->  const [colorButton, setColorButton] = useState("blue")
+<!--                  -->  const handlePress = () => {
+<!--                  -->    count % 2 == 0 ? setColorButton('green') : setColorButton('blue')
+<!--                  -->    setCount(count + 1);
+<!--                  -->  }
+<!--                  -->  
+<!--                  -->  return (
+<!--                  -->    &lt;View style={styles.container}&gt;
+<!--                  -->      &lt;Text style={styles.label}&gt;Vous avez appuyé { count } fois&lt;/Text&gt;
+<!--                  -->      &lt;ButtonAddOne onPress={handlePress} style={[styles,{backgroundColor:colorButton}]} /&gt;
+<!--                  -->    &lt;/View&gt;
+<!--                  -->  )
+<!--                  -->}
+<!--                  -->
+<!--                  -->export default Test
+<!--                  -->
+<!--                  -->const styles = StyleSheet.create({
+<!--                  -->  container:{
+<!--                  -->    justifyContent:"center",
+<!--                  -->    alignItems:"center",
+<!--                  -->    flex:1,
+<!--                  -->  },
+<!--                  -->  button:{
+<!--                  -->    marginVertical:60,
+<!--                  -->    paddingVertical: 12,
+<!--                  -->    paddingHorizontal:30,
+<!--                  -->    minWidth:"auto",
+<!--                  -->    borderRadius:10,
+<!--                  -->  },
+<!--                  -->  label:{
+<!--                  -->    marginVertical:60,
+<!--                  -->  }
+<!--                  -->})
+<!--                  -->
+                      </li>
+                    </ol>
+                  </code></pre>
+                </div>
+                
                 <hr class="marginside">
                 <h5>useEffect</h5>
                 <p><i>useEffect</i> vous permet d'exécuter du code en réponse à des changements dans le composant.</p>
@@ -230,10 +302,343 @@
                 <p><i>Avec des dépendances spécifiques :</i></p>
                 
                 <p>Exécution lorsque les dépendances changent : En passant un tableau de dépendances contenant certaines variables ou états, l'effet ne sera ré-exécuté que lorsque l'une de ces dépendances change.</p>
-
                 <div class="exercice">
-                    <p>Faites un code à partir de l'exemple de useState qui agi ainsi: lorsque le compteur est un chiffre pair, le bouton est bleu, lorsque le compteur est impair, le bouton est vert.</p>
+                  <h3>La calculatrice</h3>
+                  <p><i>Code de départ : </i></p>
+                  <pre><code class="language-jsx">
+<!--              -->// Composant buttonCalculatrice
+<!--              -->// 
+<!--              -->import { StyleSheet, Text, View,TouchableOpacity, Dimensions} from 'react-native'
+<!--              -->import React from 'react'
+<!--              -->
+<!--              -->const ButtonCalculatrice = ({value, handlePress}) =&gt; {
+<!--              -->  const screen = Dimensions.get("window")
+<!--              -->
+<!--              -->  return (
+<!--              -->    
+<!--              -->    &lt;TouchableOpacity onPress={handlePress} style={[styles.container,styles.numberButton, {height:((screen.width - 50) / 4)}]}&gt;
+<!--              -->      &lt;Text style={styles.text}&gt;
+<!--              -->        {value}
+<!--              -->      &lt;/Text&gt;
+<!--              -->    &lt;/TouchableOpacity&gt;
+<!--              -->    
+<!--              -->  )
+<!--              -->}
+<!--              -->
+<!--              -->export default ButtonCalculatrice
+<!--              -->
+<!--              -->const styles = StyleSheet.create({
+<!--              -->  container: {
+<!--              -->    margin: 10,
+<!--              -->    borderRadius: 10,
+<!--              -->    justifyContent: 'center',
+<!--              -->    alignItems: 'center',
+<!--              -->  },
+<!--              -->  numberButton: {
+<!--              -->    backgroundColor: '#333333',  // Dark gray for numeric buttons
+<!--              -->  },
+<!--              -->  functionButton: {
+<!--              -->    backgroundColor: '#00e676',  // Neon green for function buttons
+<!--              -->    
+<!--              -->  },
+<!--              -->  text: {
+<!--              -->    color: '#e0e0e0',  // Light gray 
+<!--              -->    fontSize: 20,
+<!--              -->    fontWeight: '500',
+<!--              -->  },
+<!--              -->  textFonction: {
+<!--              -->    color: '#C60709',  // Dark orange
+<!--              -->    fontSize: 20,
+<!--              -->    fontWeight: '500',
+<!--              -->  },
+<!--              -->})
+                  </code></pre>
+                  <pre><code class="language-jsx">
+<!--              -->import { StyleSheet, Text, View, Dimensions } from 'react-native'
+<!--              -->import React, {useState} from 'react'
+<!--              -->import ButtonCalculatrice from '../components/buttonCalculatriceCours'
+<!--              -->import { SafeAreaView } from 'react-native-safe-area-context';
+<!--              -->const Calculatrice = () =&gt; {
+<!--              -->
+<!--              -->
+<!--              -->  
+<!--              -->  return (
+<!--              -->
+<!--              -->
+<!--              -->    &lt;SafeAreaView style={styles.container}&gt;
+<!--              -->      &lt;View style={styles.containerLabel}&gt;
+<!--              -->        &lt;Text style={styles.label}&gt;Something&lt;/Text&gt;
+<!--              -->      &lt;/View&gt;
+<!--              -->      &lt;View style={styles.row}&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="1" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="2" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="3" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="+" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->      &lt;/View&gt;
+<!--              -->      &lt;View style={styles.row}&gt;
+<!--              -->        
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="4" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="5" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="6" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="-" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->      &lt;/View&gt;
+<!--              -->      &lt;View style={styles.row}&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="7" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="8" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="9" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="x" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->      &lt;/View&gt;
+<!--              -->      &lt;View style={styles.row}&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="0" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="." /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="&lt;-"/&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->        &lt;View style={styles.column}&gt;
+<!--              -->          &lt;ButtonCalculatrice value="=" /&gt;
+<!--              -->        &lt;/View&gt;
+<!--              -->      &lt;/View&gt;
+<!--              -->    &lt;/SafeAreaView&gt;
+<!--              -->
+<!--              -->  );
+<!--              -->};
+<!--              -->
+<!--              -->
+<!--              -->
+<!--              -->export default Calculatrice
+<!--              -->
+<!--              -->const styles = StyleSheet.create({
+<!--              -->  container: {
+<!--              -->    flex:1,
+<!--              -->    backgroundColor:"grey",
+<!--              -->    padding: 10,
+<!--              -->    alignItems:"flex-end",
+<!--              -->    justifyContent:"flex-end"
+<!--              -->
+<!--              -->  },
+<!--              -->  row: {
+<!--              -->    flexDirection: 'row',
+<!--              -->    justifyContent: 'space-between',
+<!--              -->    marginBottom: 0,
+<!--              -->  },
+<!--              -->  column: {
+<!--              -->    flex: 1,
+<!--              -->    marginHorizontal: 0,
+<!--              -->  },
+<!--              -->  label:{
+<!--              -->    textAlign:"right",
+<!--              -->    fontSize:30,
+<!--              -->    paddingHorizontal:12,
+<!--              -->    width:"90%"
+<!--              -->  },
+<!--              -->  containerLabel:{
+<!--              -->    height:60,
+<!--              -->    width:'100%',
+<!--              -->    flexDirection: 'row',
+<!--              -->    marginBottom: 10,
+<!--              -->    justifyContent:'flex-end',
+<!--              -->    alignItems:"center"
+<!--              -->  }
+<!--              -->});
+                  </code></pre>
+                  <!-- <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo2')">Solution</button> -->
+                  <div class="solution hidden" id="solutionExo2">
+                    <p>calculatrice.jsx</p>
+                    <pre><code class="language-jsx">
+<!--                -->import { StyleSheet, Text, View, Dimensions } from 'react-native'
+<!--                -->import React, {useState,useEffect} from 'react'
+<!--                -->import ButtonCalculatrice from '../components/buttonCalculatrice'
+<!--                -->import { SafeAreaView } from 'react-native-safe-area-context';
+<!--                -->const Calculatrice = () =&gt; {
+<!--                -->  const [affichage, setAffichage] = useState("");
+<!--                -->  const [screenData, setScreenData] = useState(Dimensions.get("window"))
+<!--                -->  
+<!--                -->  const [isHorizontal,setIsHorizontal] = useState(screenData.width &gt; screenData.height)
+<!--                -->  
+<!--                -->  const numColumns = isHorizontal ? 6 : 4;
+<!--                -->  const numRows = isHorizontal ? 3 : 4;
+<!--                -->  const data = isHorizontal ? ["1","2","3","0","+","/","4","5","6",".","-","&lt;-","7","8","9","^","*","="] : ["1","2","3","+","4","5","6","-","7","8","9","*","0",".","&lt;-","="];
+<!--                -->  useEffect(() =&gt; {
+<!--                -->    // Function to handle dimension changes
+<!--                -->    const onChange = (result) =&gt; {
+<!--                -->      setScreenData(result.window);
+<!--                -->    };
+<!--                -->
+<!--                -->    // Add event listener for dimension changes
+<!--                -->    const subscription = Dimensions.addEventListener('change', onChange);
+<!--                -->
+<!--                -->    // Cleanup the listener on unmount
+<!--                -->    return () =&gt; {
+<!--                -->      subscription?.remove(); // React Native &gt;= 0.65
+<!--                -->    };
+<!--                -->  }, []);
+<!--                -->  // Update the isHorizontal state whenever screenData changes
+<!--                -->  useEffect(() =&gt; {
+<!--                -->    setIsHorizontal(screenData.width &gt; screenData.height);
+<!--                -->  }, [screenData]);
+<!--                -->  return (
+<!--                -->
+<!--                -->        &lt;SafeAreaView style={styles.container}&gt;
+<!--                -->          
+<!--                -->          &lt;View style={styles.containerLabel}&gt;
+<!--                -->            &lt;Text style={styles.label}&gt;{affichage}&lt;/Text&gt;
+<!--                -->          &lt;/View&gt;
+<!--                -->          {Array.from({length:numRows}).map((_,rowIndex) =&gt;(
+<!--                -->            &lt;View key={rowIndex} style={styles.row}&gt;
+<!--                -->            
+<!--                -->              {data.slice(rowIndex * numColumns,(rowIndex + 1) * numColumns).map((value) =&gt; (
+<!--                -->                
+<!--                -->                &lt;View key={value} style={styles.column}&gt;
+<!--                -->                  &lt;ButtonCalculatrice screenData={screenData} isHorizontal={isHorizontal} value={value} affichage={affichage} setAffichage={setAffichage}/&gt;
+<!--                -->                &lt;/View&gt;
+<!--                -->              ))}
+<!--                -->            &lt;/View&gt;
+<!--                -->          ))}
+<!--                -->        &lt;/SafeAreaView&gt;
+<!--                -->  );
+<!--                -->};
+<!--                -->
+<!--                -->
+<!--                -->
+<!--                -->export default Calculatrice
+<!--                -->
+<!--                -->const styles = StyleSheet.create({
+<!--                -->  container: {
+<!--                -->    flex:1,
+<!--                -->    backgroundColor:"grey",
+<!--                -->    padding: 10,
+<!--                -->    alignItems:"flex-end",
+<!--                -->    justifyContent:"flex-end"
+<!--                -->
+<!--                -->  },
+<!--                -->  row: {
+<!--                -->    flexDirection: 'row',
+<!--                -->    justifyContent: 'space-between',
+<!--                -->    marginBottom: 0,
+<!--                -->  },
+<!--                -->  column: {
+<!--                -->    flex: 1,
+<!--                -->    marginHorizontal: 0,
+<!--                -->  },
+<!--                -->  label:{
+<!--                -->    textAlign:"right",
+<!--                -->    fontSize:30,
+<!--                -->    paddingHorizontal:12,
+<!--                -->    width:"90%"
+<!--                -->  },
+<!--                -->  containerLabel:{
+<!--                -->    height:60,
+<!--                -->    width:'100%',
+<!--                -->    flexDirection: 'row',
+<!--                -->    marginBottom: 10,
+<!--                -->    justifyContent:'flex-end',
+<!--                -->    alignItems:"center"
+<!--                -->  }
+<!--                -->});
+                    </code></pre>
+                    <p>ButtonCalculatrice</p>
+                    <pre><code class="language-jsx">
+<!--                -->import { StyleSheet, Text, View, TouchableOpacity,  Dimensions } from 'react-native';
+<!--                -->import React, {useState} from 'react';
+<!--                -->import { evaluate } from 'mathjs';
+<!--                -->
+<!--                -->
+<!--                -->const ButtonCalculatrice = ({ value, affichage, setAffichage, isHorizontal, screenData}) =&gt; {
+<!--                -->  const evaluateSimpleExpression = (expression) =&gt; {
+<!--                -->    try {
+<!--                -->      const result = evaluate(expression);
+<!--                -->      return result;
+<!--                -->    } catch (error) {
+<!--                -->      alert("Ceci n'est pas une expression mathématique");
+<!--                -->      return null;
+<!--                -->    }
+<!--                -->  };
+<!--                -->
+<!--                -->  const handlePress = () =&gt; {
+<!--                -->    if (value === '=') {
+<!--                -->      if (evaluateSimpleExpression(affichage) != null) {
+<!--                -->        setAffichage(evaluateSimpleExpression(affichage).toString());
+<!--                -->      }
+<!--                -->    } else if (value === '&lt;-') {
+<!--                -->      setAffichage(affichage.slice(0, -1));
+<!--                -->    } else {
+<!--                -->      setAffichage(affichage + value);
+<!--                -->    }
+<!--                -->  };
+<!--                -->
+<!--                -->  const isFunctionButton = value === '=' || value === '&lt;-';
+<!--                -->
+<!--                -->  return (
+<!--                -->    &lt;TouchableOpacity
+<!--                -->      onPress={handlePress}
+<!--                -->    
+<!--                -->    style={[styles.container, isFunctionButton ? styles.functionButton : styles.numberButton, isHorizontal ? {height: (screenData.height - 40) /5}:{height: (screenData.width - 50 )/ 5}]}
+<!--                -->      activeOpacity={0.7}
+<!--                -->    &gt;
+<!--                -->      &lt;Text style={isFunctionButton ? styles.textFonction : styles.text}&gt;{value}&lt;/Text&gt;
+<!--                -->    &lt;/TouchableOpacity&gt;
+<!--                -->  );
+<!--                -->};
+<!--                -->
+<!--                -->export default ButtonCalculatrice;
+<!--                -->
+<!--                -->const styles = StyleSheet.create({
+<!--                -->  container: {
+<!--                -->    margin: 10,
+<!--                -->    borderRadius: 10,
+<!--                -->    justifyContent: 'center',
+<!--                -->    alignItems: 'center',
+<!--                -->  },
+<!--                -->  numberButton: {
+<!--                -->    backgroundColor: '#333333',  // Dark gray for numeric buttons
+<!--                -->  },
+<!--                -->  functionButton: {
+<!--                -->    backgroundColor: '#00e676',  // Neon green for function buttons
+<!--                -->    
+<!--                -->  },
+<!--                -->  text: {
+<!--                -->    color: '#e0e0e0',  // Light gray 
+<!--                -->    fontSize: 20,
+<!--                -->    fontWeight: '500',
+<!--                -->  },
+<!--                -->  textFonction: {
+<!--                -->    color: '#C60709',  // Dark orange
+<!--                -->    fontSize: 20,
+<!--                -->    fontWeight: '500',
+<!--                -->  },
+<!--                -->});
+                    </code></pre>
+                  </div>
                 </div>
+               
             </div>
 
         </div>
@@ -248,51 +653,3 @@
     
 </body>
 </html>
-<!-- import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-const GridExample = () => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <View style={styles.column}>
-          <Text style={styles.box}>1</Text>
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.box}>2</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.column}>
-          <Text style={styles.box}>3</Text>
-        </View>
-        <View style={styles.column}>
-          <Text style={styles.box}>4</Text>
-        </View>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  column: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  box: {
-    backgroundColor: 'lightblue',
-    padding: 20,
-    textAlign: 'center',
-  },
-});
-
-export default GridExample; -->
