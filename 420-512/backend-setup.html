@@ -687,7 +687,32 @@
                 <hr>
                 <h2>Restfull</h2>
                 <p>Pour la version longue des explications visiter le <a href="https://learn.microsoft.com/en-us/azure/architecture/best-practices/api-design">site</a> par microsoft.</p>
-                <!-- TODO Expliquer et exercices Restfull (Oubli pas le async) -->
+                
+                <p>Les API REST (Representational State Transfer) sont un ensemble de conventions pour concevoir des services web qui permettent aux applications de communiquer entre elles. Voici les concepts clés :</p>
+                <p class="gras">1. Ressources</p>
+                <p>Les API REST manipulent des "ressources", qui sont des objets ou des données. Chaque ressource est identifiée par une URL unique (ex. : /utilisateurs/123).</p>
+                <p class="gras">2. Méthodes HTTP</p>
+                <p>Les API REST utilisent les méthodes HTTP pour effectuer des opérations sur les ressources :</p>
+                <ul>
+                    
+                    <li>GET : Récupérer une ressource.</li>
+                    <li>POST : Créer une nouvelle ressource.</li>
+                    <li>PUT : Mettre à jour une ressource existante.</li>
+                    <li>DELETE : Supprimer une ressource.</li>
+                </ul>
+                <p class="gras">3. Formats de données</p>
+                <p>Les réponses des API REST sont généralement formatées en JSON (JavaScript Object Notation) ou XML. JSON est le plus courant en raison de sa simplicité et de sa légèreté.</p>
+                <p class="gras">4. Utilisation des Codes de Statut HTTP</p>
+                <p>Les API REST utilisent des codes de statut HTTP pour indiquer le résultat d'une requête :</p>
+                <ul>
+                    
+                    <li>200 OK : Requête réussie.</li>
+                    <li>201 Created : Nouvelle ressource créée avec succès.</li>
+                    <li>204 No Content : Requête réussie, mais aucune donnée à retourner.</li>
+                    <li>400 Bad Request : Erreur de la part du client.</li>
+                    <li>404 Not Found : La ressource demandée n'existe pas.</li>
+                    <li>500 Internal Server Error : Erreur côté serveur.</li>
+                </ul>
 
                 
             </div>

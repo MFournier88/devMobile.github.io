@@ -30,168 +30,174 @@
                 <div class="exercice">
                     <p>À l'aide des valeurs de couleur ci-dessous</p>
                     <pre><code class="language-jsx">
-const color1 = "#000000";
-const color2 = "#282A3A";
-const color3 = '#735F32';
-const color4 = '#C69749';
+<!--                -->const color1 = "#000000";
+<!--                -->const color2 = "#282A3A";
+<!--                -->const color3 = '#735F32';
+<!--                -->const color4 = '#C69749';
                     </code></pre>
-                    <p>Recréez l'affichage suivant : (Indice : J'utilise Dimensions.get('window').width pour déterminer la largeur des rectangles.)</p>
+
+
+                    <p class="pt-30 pb-30">Recréez l'affichage suivant : (Indice : J'utilise Dimensions.get('window').width pour déterminer la largeur des rectangles.)</p>
                     <img src="/devMobile.github.io/images/animation.png" alt="exoAnim">
-                    <p>Faites en sorte que le bouton + ajoute une tâche. Indice : utiliser les ...</p>
-                    <p>Ajouter un boutton supprimer a droite de chaque tâche et faites en sorte qu'ils fonctionne. Indice : filter</p>
-                    <p>Faites en sorte que ... à venir</p>
+                    <p class="pt-30">Faites en sorte que le bouton + ajoute une tâche. Indice : utiliser les "..." et utiliser une mise à jour fonctionnelle d'état (Ex : setCount((prev) => prev + 1))</p>
+                    <p>Ajouter un boutton supprimer a droite de chaque tâche et faites en sorte qu'ils fonctionne. Indice : filter.</p>
+                    <p >Faites en sorte qu'un swipe à droite sur une tâche entraine sa suppression. Indice : Swipeable.</p>
 
-                    <h2>Solution</h2>
 
-                    <p>Layout</p>
-                    <pre><code class="language-jsx">
-import { View, Text } from 'react-native'
-import React from 'react'
-import {Stack} from 'expo-router'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-const RootLayout = () =&gt; {
-    return (
-    &lt;GestureHandlerRootView&gt;
-        &lt;Stack&gt;
-            &lt;Stack.Screen name="index" options={{headerShown: false}}/&gt;
-        &lt;/Stack&gt;
-    &lt;/GestureHandlerRootView&gt;
-    )
-}
+                    <button class="btn solutionButton" onclick="toggleVisibilityById('solutionExo1')">Solution</button>
+                    <div class="solution hidden" id="solutionExo1">
+                        <h4>Layout</h4>
+                        <pre><code class="language-jsx">
+<!--                    -->import { View, Text } from 'react-native'
+<!--                    -->import React from 'react'
+<!--                    -->import {Stack} from 'expo-router'
+<!--                    -->import { GestureHandlerRootView } from 'react-native-gesture-handler'
+<!--                    -->const RootLayout = () =&gt; {
+<!--                    -->    return (
+<!--                    -->    &lt;GestureHandlerRootView&gt;
+<!--                    -->        &lt;Stack&gt;
+<!--                    -->            &lt;Stack.Screen name="index" options={{headerShown: false}}/&gt;
+<!--                    -->        &lt;/Stack&gt;
+<!--                    -->    &lt;/GestureHandlerRootView&gt;
+<!--                    -->    )
+<!--                    -->}
+<!--                    -->
+<!--                    -->export default RootLayout
+                        </code></pre>
 
-export default RootLayout
+                        <h4>index</h4>
+
+                        <pre><code class="language-jsx">
+<!--                    -->import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, FlatList, Keyboard} from 'react-native'
+<!--                    -->import React, {useState} from 'react'
+<!--                    -->import { SafeAreaView } from 'react-native-safe-area-context';
+<!--                    -->import  { Swipeable } from 'react-native-gesture-handler'
+<!--                    -->import Animated, {LinearTransition , Easing} from 'react-native-reanimated';
+<!--                    -->
+<!--                    -->const color1 = "#000000";
+<!--                    -->const color2 = "#282A3A";
+<!--                    -->const color3 = '#735F32';
+<!--                    -->const color4 = '#C69749';
+<!--                    -->
+<!--                    -->
+<!--                    -->
+<!--                    -->
+<!--                    -->const index = () =&gt; {
+<!--                    -->    const [textInput,setTextInput] = useState('')
+<!--                    -->    const [data,setData] = useState(["Pratiquer mon lancer de frisbee", "Me questionner sur la vie", "Corriger les examens"])
+<!--                    -->
+<!--                    -->    const handlePressPlus = () =&gt; {
+<!--                    -->        setData((prev) =&gt; [...prev,textInput])
+<!--                    -->        setTextInput('')
+<!--                    -->        Keyboard.dismiss()
+<!--                    -->    }
+<!--                    -->    
+<!--                    -->    const handleDelete = (index) =&gt; {
+<!--                    -->        setData((prev) =&gt; prev.filter((_,id) =&gt; id !== index))
+<!--                    -->    }
+<!--                    -->    const RenderItem = ({index, item}) =&gt; {
+<!--                    -->        // js
+<!--                    -->        const afficheText = () =&gt;(
+<!--                    -->                &lt;View style={{width:150,height:10}}&gt;
+<!--                    -->            
+<!--                    -->                &lt;/View&gt;
+<!--                    -->            );
+<!--                    -->        
+<!--                    -->        return(
+<!--                    -->            &lt;Swipeable renderLeftActions={afficheText} onSwipeableWillOpen={() =&gt; handleDelete(index)}&gt;
+<!--                    -->                &lt;View style={[styles.task, { width: Dimensions.get('window').width }]}&gt;
+<!--                    -->                    &lt;Text style={styles.taskText}&gt;{item}&lt;/Text&gt;
+<!--                    -->                &lt;/View&gt;
+<!--                    -->            &lt;/Swipeable&gt;
+<!--                    -->        );
+<!--                    -->    }
+<!--                    -->
+<!--                    -->    return (
+<!--                    -->        &lt;SafeAreaView style={styles.container}&gt;
+<!--                    -->            &lt;View style={{flexDirection:"row"}}&gt;
+<!--                    -->                &lt;TextInput
+<!--                    -->                    style={styles.textInput}
+<!--                    -->                    onChangeText={setTextInput}
+<!--                    -->                    placeholder='Entrez la tâche à accomplir'
+<!--                    -->                    placeholderTextColor={color3}
+<!--                    -->                    value={textInput}
+<!--                    -->                /&gt;
+<!--                    -->                &lt;TouchableOpacity onPress={handlePressPlus} style={styles.btnPlusContainer}&gt;
+<!--                    -->                    &lt;Text style={styles.btnPlus}&gt;+&lt;/Text&gt;
+<!--                    -->                &lt;/TouchableOpacity&gt;
+<!--                    -->            &lt;/View&gt;
+<!--                    -->            &lt;Animated.FlatList
+<!--                    -->                style={styles.flatList}
+<!--                    -->                data={data}
+<!--                    -->                renderItem={({item,index}) =&gt; &lt;RenderItem index={index} item={item}/&gt;}
+<!--                    -->                keyExtractor={(item, index) =&gt; index.toString()}
+<!--                    -->
+<!--                    -->                contentContainerStyle={{alignItems:'center'}}
+<!--                    -->            /&gt;
+<!--                    -->        &lt;/SafeAreaView&gt;
+<!--                    -->    )
+<!--                    -->}
+<!--                    -->
+<!--                    -->export default index
+<!--                    -->
+<!--                    -->const styles = StyleSheet.create({
+<!--                    -->    container:{
+<!--                    -->        backgroundColor:color1,
+<!--                    -->        flex:1,
+<!--                    -->    },
+<!--                    -->    textInput:{
+<!--                    -->        backgroundColor:color2,
+<!--                    -->        width:Dimensions.get('window').width - 56,
+<!--                    -->        height:56,
+<!--                    -->        paddingHorizontal:20,
+<!--                    -->        textAlign:'center',
+<!--                    -->        fontSize:16,
+<!--                    -->        color:color4,
+<!--                    -->
+<!--                    -->
+<!--                    -->    },
+<!--                    -->    btnPlus:{
+<!--                    -->        color:color1,
+<!--                    -->        fontSize:26
+<!--                    -->        
+<!--                    -->    },
+<!--                    -->    btnPlusContainer:{
+<!--                    -->        backgroundColor:color4,
+<!--                    -->        height:56,
+<!--                    -->        width:56,
+<!--                    -->        justifyContent:"center",
+<!--                    -->        alignItems:"center"
+<!--                    -->    },
+<!--                    -->    flatList:{
+<!--                    -->        paddingVertical:30
+<!--                    -->    },
+<!--                    -->    task:{
+<!--                    -->        paddingVertical:20,
+<!--                    -->        paddingHorizontal:10,
+<!--                    -->        marginVertical:5,
+<!--                    -->        backgroundColor:color2,
+<!--                    -->        width:Dimensions.get('window').width * 0.9,
+<!--                    -->    },
+<!--                    -->    taskText:{
+<!--                    -->        color:color4,
+<!--                    -->        
+<!--                    -->    },
+<!--                    -->    minusBtn:{
+<!--                    -->        color:color1,
+<!--                    -->        fontSize:26,
+<!--                    -->    },
+<!--                    -->    btnMinusContainer:{
+<!--                    -->        justifyContent:'center',
+<!--                    -->        alignItems:'center',
+<!--                    -->        backgroundColor:'red',
+<!--                    -->        width:56,
+<!--                    -->        height:56,
+<!--                    -->        marginVertical:5,
+<!--                    -->
+<!--                    -->    }
+<!--                    -->})
                     </code></pre>
-                    <p>index</p>
-                    <pre><code class="language-jsx">
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions, FlatList, Keyboard} from 'react-native'
-import React, {useState} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import  { Swipeable } from 'react-native-gesture-handler'
-import Animated, {LinearTransition , Easing} from 'react-native-reanimated';
-
-const color1 = "#000000";
-const color2 = "#282A3A";
-const color3 = '#735F32';
-const color4 = '#C69749';
-
-
-
-
-const index = () =&gt; {
-    const [textInput,setTextInput] = useState('')
-    const [data,setData] = useState(["Pratiquer mon lancer de frisbee", "Me questionner sur la vie", "Corriger les examens"])
-
-    const handlePressPlus = () =&gt; {
-        setData((prev) =&gt; [...prev,textInput])
-        setTextInput('')
-        Keyboard.dismiss()
-    }
-    
-    const handleDelete = (index) =&gt; {
-        setData((prev) =&gt; prev.filter((_,id) =&gt; id !== index))
-    }
-    const RenderItem = ({index, item}) =&gt; {
-        // js
-        const afficheText = () =&gt;(
-                &lt;View style={{width:150,height:10}}&gt;
-            
-                &lt;/View&gt;
-            );
-        
-        return(
-            &lt;Swipeable renderLeftActions={afficheText} onSwipeableWillOpen={() =&gt; handleDelete(index)}&gt;
-                &lt;View style={[styles.task, { width: Dimensions.get('window').width }]}&gt;
-                    &lt;Text style={styles.taskText}&gt;{item}&lt;/Text&gt;
-                &lt;/View&gt;
-            &lt;/Swipeable&gt;
-        );
-    }
-
-    return (
-        &lt;SafeAreaView style={styles.container}&gt;
-            &lt;View style={{flexDirection:"row"}}&gt;
-                &lt;TextInput
-                    style={styles.textInput}
-                    onChangeText={setTextInput}
-                    placeholder='Entrez la tâche à accomplir'
-                    placeholderTextColor={color3}
-                    value={textInput}
-                /&gt;
-                &lt;TouchableOpacity onPress={handlePressPlus} style={styles.btnPlusContainer}&gt;
-                    &lt;Text style={styles.btnPlus}&gt;+&lt;/Text&gt;
-                &lt;/TouchableOpacity&gt;
-            &lt;/View&gt;
-            &lt;Animated.FlatList
-                style={styles.flatList}
-                data={data}
-                renderItem={({item,index}) =&gt; &lt;RenderItem index={index} item={item}/&gt;}
-                keyExtractor={(item, index) =&gt; index.toString()}
-
-                contentContainerStyle={{alignItems:'center'}}
-            /&gt;
-        &lt;/SafeAreaView&gt;
-    )
-}
-
-export default index
-
-const styles = StyleSheet.create({
-    container:{
-        backgroundColor:color1,
-        flex:1,
-    },
-    textInput:{
-        backgroundColor:color2,
-        width:Dimensions.get('window').width - 56,
-        height:56,
-        paddingHorizontal:20,
-        textAlign:'center',
-        fontSize:16,
-        color:color4,
-
-
-    },
-    btnPlus:{
-        color:color1,
-        fontSize:26
-        
-    },
-    btnPlusContainer:{
-        backgroundColor:color4,
-        height:56,
-        width:56,
-        justifyContent:"center",
-        alignItems:"center"
-    },
-    flatList:{
-        paddingVertical:30
-    },
-    task:{
-        paddingVertical:20,
-        paddingHorizontal:10,
-        marginVertical:5,
-        backgroundColor:color2,
-        width:Dimensions.get('window').width * 0.9,
-    },
-    taskText:{
-        color:color4,
-        
-    },
-    minusBtn:{
-        color:color1,
-        fontSize:26,
-    },
-    btnMinusContainer:{
-        justifyContent:'center',
-        alignItems:'center',
-        backgroundColor:'red',
-        width:56,
-        height:56,
-        marginVertical:5,
-
-    }
-})
-                    </code></pre>
+                    </div>
                 </div>
             </div>
         </div>
