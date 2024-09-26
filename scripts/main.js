@@ -34,26 +34,29 @@ function toggleVisibilityById(id){
 function focusOnNavbar(id){
     document.addEventListener("DOMContentLoaded", function() {
         var checkNavbarLoaded = setInterval(function() {
-            var navbar = document.querySelector('.vertical-navbar');
-            if (navbar) {
-                clearInterval(checkNavbarLoaded); // Stop checking once the navbar is found
-                
-                // Your logic here
-                var links = navbar.querySelectorAll('.nav-link');
-                
-    
-                links.forEach(function(item) {
-                    item.classList.remove('active');
-                    if(item.id == id){
-                        item.classList.add('active')
-                    }
-                });
-                
+            var navbars = document.querySelectorAll('.vertical-navbar, .offcanvas-body');
+            navbars.forEach(function(navbar){
+                if (navbar) {
+                    clearInterval(checkNavbarLoaded); // Stop checking once the navbar is found
                     
-            }
+                    // Your logic here
+                    var links = navbar.querySelectorAll('.nav-link');
+                    
+        
+                    links.forEach(function(item) {
+                        item.classList.remove('active');
+                        if(item.id == id){
+                            item.classList.add('active')
+                        }
+                    });
+                    
+                        
+                }
+            })
         }, 100); // Check every 100ms if the navbar is loaded
     });
 }
+
 
 
     
