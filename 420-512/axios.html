@@ -27,9 +27,184 @@
             <div class="container">
                 <hr>
                 <h2>Axios</h2>
+                <hr class="section">
+                <h3>Préparer la bd</h3>
+                <p>Créez une table nommée users qui a pour colonne id,username,password</p>
+<!-- create table user(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(64),
+    password VARCHAR(64)
+    );
+
+https://axios-http.com/docs/intro -->
+                
+                
+                
+                <hr class="section">
+                <h3>Préparer le backend</h3>
+                <p>Créez une requête dans votre database.js nommée getUserByUsernameAndPassword</p>
+<!-- import mysql from 'mysql2';
+import dotenv from 'dotenv';
+dotenv.config();
+const pool = mysql.createPool({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
+}).promise()
+
+
+
+export default async function getUserByUsernameAndPassword(username, password) {
+    const [rows] = await pool.query(`SELECT * FROM user WHERE username=? AND password=?`,[username,password])
+    return rows[0];
+} -->
+                <hr class="section">
+                <p>Créez un endpoint post pour /auth qui prendra le username et le password dans le body de la requête</p>
+<!-- import express from 'express';
+// Ces fonctions sont celles que nous avons créé précédemment, assurez vous que l'importation réussit                
+import getUserByUsernameAndPassword from './database.js';
+
+const app = express();
+
+// app.use(express.json()) est une instruction cruciale pour configurer Express afin de gérer et d'interpréter
+//   automatiquement les données JSON envoyées via les requêtes HTTP, facilitant ainsi le développement d'applications
+//   web basées sur Node.js avec Express.
+app.use(express.json())
+app.post("/auth", async (req,res) => {
+    const { username, password } = req.body;
+    try {
+        const user = await getUserByUsernameAndPassword(username, password);
+        if(!user) {
+            return res.status(404).json({error: "User not found"});
+        }
+        res.status(200).json(user)
+    }catch (error) {
+        console.error('Error retrieving user: ', error);
+        res.status(500).json({ error: 'Internal server error'});
+    }
+})
+
+// Lorsqu'une erreur se produit dans l'application (par exemple, une exception non gérée), Express appelle automatiquement
+// ce middleware d'erreur avec l'objet d'erreur (err), ce qui permet de la gérer de manière centralisée et uniforme.
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(1045).send('Something broke!')
+})
+
+// Lance le serveur et lui indique quel port utiliser 
+app.listen(8080, () => {
+    console.log('Server is runnig on port 8080')
+}) -->
+                <hr class="section">
+                <h3>Vérifier le tout avec Thunder Client</h3>
+                <p>Thunder Client est une extension de VSCode qui est très utile pour tester son backend. (très similaire à Postman)</p>
+                <hr class="section">
+                <h3>Faire la requête à partir de l'application mobile à l'aide d'axios.</h3>
+<!-- import axios from 'axios';
+
+const api = axios.create({
+    baseURL:`http://192.168.0.31:8080`
+})
+
+export async function signIn(username, password){
+    try {
+        console.log(`trying to signIn with username: ${username} and password: ${password}`);
+
+        const signInData = {
+            username: username,
+            password: password
+        };
+
+        const userAuth = await api.post(`/auth`, signInData,{
+            header:{
+                Authorization: 'none',
+            },
+        });
+        if(!(userAuth.status == 200)) throw Error;
+        
+        return userAuth.data
+    } catch (error){
+        throw new Error(error)
+    }
+} -->
+                <hr class="section">
+                <h3>Intégrer la requête dans la page signIn</h3>
+<!-- import { StyleSheet, Text, View, TextInput, Dimensions} from 'react-native'
+import React, {useState} from 'react'
+import { useTheme } from '../../components/contexts/ThemeContext'
+import { colorsPalette } from '../../assets/colorsPalette'
+import { TouchableOpacity } from 'react-native'
+import { Link, useRouter} from 'expo-router'
+import { signIn } from '../../lib/axios'
+const signin = () => {
+    const { theme } = useTheme()
+    const colors = colorsPalette[theme]
+    const router = useRouter()
+    const submit = async () => {
+        console.log("Trying to signIn")
+        try{
+            const result = await signIn(form.username,form.password)
+            router.push(`../${result.username}/profile`)
+
+        } catch(error){
+            console.error("Error : ",error.message)
+        }
+        // router.push("../patrick/profile")
+    }   
+    const [form, setForm] = useState({username:"Harry Potter",password:"iloveGinny"})
+    return (
+        <>
+            <TextInput
+                style={[styles.textInput,{color:colors.text},{backgroundColor:colors.background}]}
+                onChangeText={(item) => {setForm({...form,username : item})}}
+                placeholder='Entrez la username'
+                placeholderTextColor={colors.secondary}
+                value={form.username}
+            />
+            <TextInput
+                style={[styles.textInput,{color:colors.text},{backgroundColor:colors.background}]}
+                onChangeText={(item) => {setForm({...form,password : item})}}
+                placeholder='Entrez la password'
+                placeholderTextColor={colors.secondary}
+                value={form.password}
+            />
+
+            
+            <TouchableOpacity onPress={submit}>
+                <Text>Sign-in</Text>
+            </TouchableOpacity>
+        </>
+    )
+}
+
+export default signin
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        },
+        title: {
+        fontSize: 48, // Large font size for prominence
+        fontWeight: 'bold', // Bold for emphasis
+        letterSpacing: 2, // Slightly increased letter spacing
+        textAlign: 'center',
+        textTransform: 'uppercase', // Uppercase letters for style
+        },
+        textInput:{
+        width:Dimensions.get('window').width - 56,
+        height:56,
+        paddingHorizontal:20,
+        textAlign:'center',
+        fontSize:16,
+
+
+    },
+}) -->
             </div>
         </div>
-
     <div w3-include-html="includes/vertNavBar.html"></div> 
     <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
         

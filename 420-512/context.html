@@ -1,0 +1,210 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>Context - Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <hr>
+                <h2>Context</h2>
+                <p>Faites une navigation imbriquée. La racine doit être un "drawer" et dans (tabs) vous mettrez 2 pages avec simplement les mots [signin,signup] pour l'instant. Dans le _layout.jsx du sous-dossier (tabs) vous allez présiser que vous ne voulez pas de header et que vous voulez des Tabs et pas des stacks.</p>
+                <p>Vous vous retrouverez alors avec 1 header (celui du drawer), mais il ne changera pas en fonction de la tab qui est active.</p>
+                <p>Une solution est d'utiliser le context</p>
+
+                <p><span class="gras">Step 1: </span> Créez un fichier nommé tabNameContext.js dans le dossier components </p> 
+                
+                
+                
+                <pre><code class="language-jsx">
+<!--            -->import React, { createContext, useContext, useState } from 'react';
+<!--            -->
+<!--            -->const TabNameContext = createContext();
+<!--            -->
+<!--            -->export const DrawerProvider = ({ children }) =&gt; {
+<!--            -->    const [drawerTitle, setDrawerTitle] = useState('Nested Tabs');
+<!--            -->
+<!--            -->    return (
+<!--            -->    &lt;TabNameContext.Provider value={{ drawerTitle, setDrawerTitle }}&gt;
+<!--            -->        {children}
+<!--            -->    &lt;/TabNameContext.Provider&gt;
+<!--            -->    );
+<!--            -->};
+<!--            -->
+<!--            -->export const useTabNameContext = () =&gt; {
+<!--            -->    return useContext(TabNameContext);
+<!--            -->};
+                    </code>
+                </pre>
+                <p><span class="gras">Step 2:</span> Il faut wrap les screens ayant besoin du context avec ce provider</p>
+
+                <pre><code class="language-jsx">
+<!--            -->import { View, Text } from 'react-native'
+<!--            -->import React from 'react'
+<!--            -->import { Drawer } from 'expo-router/drawer';
+<!--            -->import { TabNameProvider } from '../components/tabNameContext';
+<!--            -->import { useTabNameContext } from '../components/tabNameContext';
+<!--            -->const RootLayout = () =&gt; {
+<!--            -->  return(
+<!--            -->      &lt;TabNameProvider&gt;
+<!--            -->        &lt;Layout/&gt;
+<!--            -->      &lt;/TabNameProvider&gt;
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->
+<!--            -->const Layout = () =&gt; {
+<!--            -->  const {tabName} = useTabNameContext();
+<!--            -->  return (
+<!--            -->    
+<!--            -->      &lt;Drawer screenOptions={{headerStyle:{backgroundColor:'lightblue'}}}&gt;
+<!--            -->        &lt;Drawer.Screen name='index'/&gt;
+<!--            -->        &lt;Drawer.Screen name='speedTest' /&gt;
+<!--            -->        &lt;Drawer.Screen name='(tabs)' options={{drawerLabel:"tabs",title:tabName}}/&gt;
+<!--            -->      &lt;/Drawer&gt;
+<!--            -->    
+<!--            -->
+<!--            -->  )
+<!--            -->}
+<!--            -->
+<!--            -->export default RootLayout
+                </code></pre>
+                <p>Ajouter ceci dans chaque tabs pour utiliser le context et pour que la valeur se mette à jours à chaque focus sur une tab différente.</p>
+                <pre><code class="language-jsx">
+<!--            -->const { setTabName } = useTabNameContext()
+<!--            -->
+<!--            -->useFocusEffect(
+<!--            -->  React.useCallback(() =&gt; {
+<!--            -->    // Set the tab name when this tab is focused
+<!--            -->    setTabName('Bouton Coloré');
+<!--            -->
+<!--            -->    // Return a cleanup function (optional)
+<!--            -->    return () =&gt; {
+<!--            -->      // Any cleanup can be done here when the tab loses focus
+<!--            -->    };
+<!--            -->  }, [setTabName])
+<!--            -->);
+                </code></pre>
+                    
+                <hr>
+                <h3>Implémenter un icon qui permet de passer de dark mode à light mode</h3>
+                <p>Vous allez avoir besoin d'un CustomComponentc à passez comme header, car vous voulez modifier le format par défaut (en ajoutant un icon)</p>
+                <pre>
+                  <code class="language-jsx">
+<!--            -->// CustomDrawerHeader.js
+<!--            -->import React from 'react';
+<!--            -->import { View, Text, StyleSheet, Switch, TouchableOpacity} from 'react-native';
+<!--            -->import { useTheme } from './contexts/ThemeContext';
+<!--            -->import { SafeAreaView } from 'react-native-safe-area-context';
+<!--            -->import { colorsPalette } from '../assets/colorsPalette';
+<!--            -->import Icon from 'react-native-vector-icons/FontAwesome';
+<!--            -->
+<!--            -->
+<!--            -->const CustomDrawerHeader = ({navigation}) =&gt; {
+<!--            -->  const { theme, toggleTheme} = useTheme();
+<!--            -->  const colors = colorsPalette[theme];
+<!--            -->  return (
+<!--            -->    &lt;SafeAreaView style={[styles.header,{backgroundColor:colors.background}]}&gt;
+<!--            -->        
+<!--            -->        &lt;TouchableOpacity style={[styles.content]} onPress={() =&gt; {navigation.openDrawer();}}&gt;
+<!--            -->        &lt;Text&gt;
+<!--            -->            &lt;Icon name="bars" size={30} color={colors.text}/&gt;
+<!--            -->        &lt;/Text&gt;
+<!--            -->      &lt;/TouchableOpacity&gt;
+<!--            -->      
+<!--            -->      &lt;Text style={[styles.title,{color:colors.text}]}&gt;App Title&lt;/Text&gt;
+<!--            -->      &lt;TouchableOpacity style={[styles.content]} onPress={() =&gt; {toggleTheme()}}&gt;
+<!--            -->        &lt;Text&gt;
+<!--            -->            &lt;Icon name={theme == 'light' ? "moon-o" : "sun-o"} size={30} color={colors.text}/&gt;
+<!--            -->        &lt;/Text&gt;
+<!--            -->      &lt;/TouchableOpacity&gt;
+<!--            -->    &lt;/SafeAreaView&gt;
+<!--            -->  );
+<!--            -->};
+<!--            -->
+<!--            -->const styles = StyleSheet.create({
+<!--            -->  header: {
+<!--            -->    flexDirection: 'row',
+<!--            -->    alignItems: 'center',
+<!--            -->    width:'100%',
+<!--            -->    justifyContent:'space-between'
+<!--            -->  },
+<!--            -->  title: {
+<!--            -->    fontSize: 24,
+<!--            -->    fontWeight: 'bold',
+<!--            -->  },
+<!--            -->  content:{
+<!--            -->    heigth:56,
+<!--            -->    width:56,
+<!--            -->    justifyContent:"center",
+<!--            -->    alignItems:"center",
+<!--            -->    fontSize:30
+<!--            -->  }
+<!--            -->});
+<!--            -->
+<!--            -->export default CustomDrawerHeader;   
+                </code>
+              </pre> 
+              <p>Votre Drawer ressemblera à ceci :</p>
+              <pre><code class="language-jsx">
+<!--         -->&lt;Drawer screenOptions={
+<!--         -->  {
+<!--         -->    header: ({navigation}) =&gt; &lt;CustomDrawerHeader navigation={navigation} toggleTheme={toggleTheme} /&gt;
+<!--         -->  }
+<!--         -->}&gt;
+<!--         -->&lt;/Drawer&gt;
+              </code></pre>  
+              <p>C'est à vous de vous arranger pour que le theme change selon les couleurs du fichier colorPalette.js qui se trouvera dans votre dossier asset</p>
+              <pre><code class="language-js">
+<!--          -->// colors.js
+<!--          -->export const colorsPalette = {
+<!--          -->  light:{
+<!--          -->    primary: '#3498db',
+<!--          -->    secondary: '#2ecc71',
+<!--          -->    accent: '#e74c3c',
+<!--          -->    background: '#ecf0f1',
+<!--          -->    text: '#2c3e50',
+<!--          -->  },
+<!--          -->  dark:{
+<!--          -->    primary: '#C69749',
+<!--          -->    secondary: '#735F32',
+<!--          -->    accent: '#282A3A',
+<!--          -->    background: 'black',
+<!--          -->    text: 'white',
+<!--          -->  }
+<!--          -->};
+              </code></pre>       
+            </div>
+        </div>
+
+    <div w3-include-html="includes/vertNavBar.html"></div> 
+    <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+        
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    <script> focusOnNavbar("nav-link-context")</script>
+    
+</body>
+</html>
