@@ -29,7 +29,7 @@
                 <h2>Axios</h2>
                 <hr class="section">
                 <h3>Préparer la bd</h3>
-                <p>Créez une table nommée users qui a pour colonne id,username,password</p>
+                <p>Créez une table nommée users qui a pour colonne id, username, email, password</p>
 <!-- create table user(
     id INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(64),
@@ -42,8 +42,9 @@ https://axios-http.com/docs/intro -->
                 
                 <hr class="section">
                 <h3>Préparer le backend</h3>
-                <p>Créez une requête dans votre database.js nommée getUserByUsernameAndPassword</p>
-<!-- import mysql from 'mysql2';
+                <p>Créez une requête dans votre database.js nommée getUserByUsernameOrEmailAndPassword</p>
+<!-- 
+import mysql from 'mysql2';
 import dotenv from 'dotenv';
 dotenv.config();
 const pool = mysql.createPool({
@@ -53,81 +54,108 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 }).promise()
 
-
-
-export default async function getUserByUsernameAndPassword(username, password) {
-    const [rows] = await pool.query(`SELECT * FROM user WHERE username=? AND password=?`,[username,password])
-    return rows[0];
+export async function getUserByUsernameOrEmailAndPassword(usernameOrEmail, password) {
+    const [potentialUsers] = await pool.query(`SELECT * FROM user WHERE username=? OR email=?;`,[usernameOrEmail,usernameOrEmail])
+    let goodUser = false
+    
+    potentialUsers.forEach((user) => {
+        if(user.password == password){
+            goodUser = user
+        }
+    })
+    
+    return goodUser;
 } -->
                 <hr class="section">
-                <p>Créez un endpoint post pour /auth qui prendra le username et le password dans le body de la requête</p>
-<!-- import express from 'express';
-// Ces fonctions sont celles que nous avons créé précédemment, assurez vous que l'importation réussit                
-import getUserByUsernameAndPassword from './database.js';
-
-const app = express();
-
-// app.use(express.json()) est une instruction cruciale pour configurer Express afin de gérer et d'interpréter
-//   automatiquement les données JSON envoyées via les requêtes HTTP, facilitant ainsi le développement d'applications
-//   web basées sur Node.js avec Express.
-app.use(express.json())
-app.post("/auth", async (req,res) => {
-    const { username, password } = req.body;
-    try {
-        const user = await getUserByUsernameAndPassword(username, password);
-        if(!user) {
-            return res.status(404).json({error: "User not found"});
-        }
-        res.status(200).json(user)
-    }catch (error) {
-        console.error('Error retrieving user: ', error);
-        res.status(500).json({ error: 'Internal server error'});
-    }
-})
-
-// Lorsqu'une erreur se produit dans l'application (par exemple, une exception non gérée), Express appelle automatiquement
-// ce middleware d'erreur avec l'objet d'erreur (err), ce qui permet de la gérer de manière centralisée et uniforme.
-app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(1045).send('Something broke!')
-})
-
-// Lance le serveur et lui indique quel port utiliser 
-app.listen(8080, () => {
-    console.log('Server is runnig on port 8080')
-}) -->
+                <p>Créez un endpoint post pour /auth/signin qui prendra le username/email et le password dans le body de la requête</p>
+                <pre><code class="language-js">
+<!--            -->import express from 'express';
+<!--            -->// Ces fonctions sont celles que nous avons créé précédemment, assurez vous que l'importation réussit                
+<!--            -->import getUserByUsernameAndPassword from './database.js';
+<!--            -->
+<!--            -->const app = express();
+<!--            -->
+<!--            -->// app.use(express.json()) est une instruction cruciale pour configurer Express afin de gérer et d'interpréter
+<!--            -->//   automatiquement les données JSON envoyées via les requêtes HTTP, facilitant ainsi le développement d'applications
+<!--            -->//   web basées sur Node.js avec Express.
+<!--            -->app.use(express.json())
+<!--            -->app.post("/auth", async (req,res) =&gt; {
+<!--            -->    const { username, password } = req.body;
+<!--            -->    try {
+<!--            -->        const user = await getUserByUsernameAndPassword(username, password);
+<!--            -->        if(!user) {
+<!--            -->            return res.status(404).json({error: "User not found"});
+<!--            -->        }
+<!--            -->        res.status(200).json(user)
+<!--            -->    }catch (error) {
+<!--            -->        console.error('Error retrieving user: ', error);
+<!--            -->        res.status(500).json({ error: 'Internal server error'});
+<!--            -->    }
+<!--            -->})
+<!--            -->
+<!--            -->// Lorsqu'une erreur se produit dans l'application (par exemple, une exception non gérée), Express appelle automatiquement
+<!--            -->// ce middleware d'erreur avec l'objet d'erreur (err), ce qui permet de la gérer de manière centralisée et uniforme.
+<!--            -->app.use((err, req, res, next) =&gt; {
+<!--            -->    console.error(err.stack)
+<!--            -->    res.status(500).send('Something broke!')
+<!--            -->})
+<!--            -->
+<!--            -->// Lance le serveur et lui indique quel port utiliser 
+<!--            -->app.listen(8080, () =&gt; {
+<!--            -->    console.log('Server is runnig on port 8080')
+<!--            -->})
+                </code></pre>
                 <hr class="section">
                 <h3>Vérifier le tout avec Thunder Client</h3>
                 <p>Thunder Client est une extension de VSCode qui est très utile pour tester son backend. (très similaire à Postman)</p>
                 <hr class="section">
                 <h3>Faire la requête à partir de l'application mobile à l'aide d'axios.</h3>
-<!-- import axios from 'axios';
-
-const api = axios.create({
-    baseURL:`http://192.168.0.31:8080`
-})
-
-export async function signIn(username, password){
-    try {
-        console.log(`trying to signIn with username: ${username} and password: ${password}`);
-
-        const signInData = {
-            username: username,
-            password: password
-        };
-
-        const userAuth = await api.post(`/auth`, signInData,{
-            header:{
-                Authorization: 'none',
-            },
-        });
-        if(!(userAuth.status == 200)) throw Error;
-        
-        return userAuth.data
-    } catch (error){
-        throw new Error(error)
-    }
-} -->
+                <p>Si j'ai :</p>
+                <img src="/devMobile.github.io/images/axios_bd1.png" alt="bd start exo">
+                <p>En allant sur :</p>
+                <img src="/devMobile.github.io/images/axios_thunderclient.png" alt="">
+                <ol>
+                    <li>Lancer votre backend -> dans votre folder BACKEND, faites npm run dev</li>
+                    <li>Mettre la méthode http à POST</li>
+                    <li>Mettre l'ip à http://127.0.0.1:8080/auth/signin vous devrez changer l'ip pour celle de votre BACKEND si vous n'êtes pas en local</li>
+                    <img src="/devMobile.github.io/images/axios_thunder_2.png" alt="">
+                    <li>Ajouter vos paramètre au body, la requête doit fonctionner que ce soit l'email ou le username qui soit utiliser.</li>
+                    <img src="/devMobile.github.io/images/axios_thunder_3.png" alt="">
+                    
+                </ol>
+                <hr class="section">
+                <h3>Créez un dossier nommé lib dans votre projet React-Native</h3>
+                <p>Ajouter dans ce dossier un fichier nommmé axios.js</p>
+                <pre><code class="language-js">
+<!--            -->//axios.js
+<!--            -->import axios from 'axios';
+<!--            -->
+<!--            -->const api = axios.create({
+<!--            -->    baseURL:`http://192.168.0.31:8080`
+<!--            -->})
+<!--            -->
+<!--            -->export async function signIn(usernameOrEmail, password){
+<!--            -->    try {
+<!--            -->        console.log(`trying to signIn with username: ${username} and password: ${password}`);
+<!--            -->
+<!--            -->        const signInData = {
+<!--            -->            usernameOrEmail: usernameOrEmail,
+<!--            -->            password: password
+<!--            -->        };
+<!--            -->
+<!--            -->        const userAuth = await api.post(`/auth/signin`, signInData,{
+<!--            -->            header:{
+<!--            -->                Authorization: 'none',
+<!--            -->            },
+<!--            -->        });
+<!--            -->        if(!(userAuth.status == 200)) throw Error;
+<!--            -->        
+<!--            -->        return userAuth.data
+<!--            -->    } catch (error){
+<!--            -->        throw new Error(error)
+<!--            -->    }
+<!--            -->}
+                </code></pre>
                 <hr class="section">
                 <h3>Intégrer la requête dans la page signIn</h3>
 <!-- import { StyleSheet, Text, View, TextInput, Dimensions} from 'react-native'
