@@ -40,11 +40,11 @@
 <!--            -->
 <!--            -->const TabNameContext = createContext();
 <!--            -->
-<!--            -->export const DrawerProvider = ({ children }) =&gt; {
-<!--            -->    const [drawerTitle, setDrawerTitle] = useState('Nested Tabs');
+<!--            -->export const TabNameProvider = ({ children }) =&gt; {
+<!--            -->    const [tabName, setTabNameTitle] = useState('Nested Tabs');
 <!--            -->
 <!--            -->    return (
-<!--            -->    &lt;TabNameContext.Provider value={{ drawerTitle, setDrawerTitle }}&gt;
+<!--            -->    &lt;TabNameContext.Provider value={{ tabName, setTabName }}&gt;
 <!--            -->        {children}
 <!--            -->    &lt;/TabNameContext.Provider&gt;
 <!--            -->    );
