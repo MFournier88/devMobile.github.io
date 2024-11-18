@@ -1,0 +1,104 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+   <!-- add icon link -->
+   <link rel="icon" href="/devMobile.github.io/images/logo.png"/>
+    
+    <title>API - Application Mobile | Cégep Marie-victorin</title>
+</head>
+<body>
+    
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper"> 
+        <div class="safe-area-container main-content">
+            <div class="container">
+                <h2>Différence entre Bibliothèques Externes et API</h2>
+                <p>
+                    <span class="gras">Bibliothèque Externe :</span>
+                </p>
+                <p>
+                    C'est un package ou un module que vous installez dans votre projet.
+                    Il contient des fonctionnalités réutilisables pour réaliser des tâches spécifiques (comme afficher une carte ou utiliser la caméra).
+                    Exemples : expo-camera, react-native-maps, axios, redux.
+                </p>
+                <p>
+                    <span class="gras">
+                        API :
+                    </span>
+                </p>
+                <p>
+                    C'est un ensemble d'outils ou de services que vous consommez dans votre code, souvent via des requêtes HTTP ou WebSocket.
+                    Une API peut être utilisée pour communiquer avec des services externes, comme une base de données distante ou un service de cartographie (par exemple, l'API de Mapbox ou Google Maps).
+                    Exemples : API de géolocalisation, API de traduction, API météo, API de paiement.
+                </p>
+                <p>
+                    <span class="gras">
+                        Conclusion
+                    </span>
+                </p>
+                <p>
+                    <span class="gras"> Bibliothèques externes :</span> Des modules prêts à l'emploi qui ajoutent des fonctionnalités supplémentaires à votre application (comme l'accès à la caméra, l'affichage de cartes, etc.).
+                </p>
+                <p>
+                    <span class="gras"> API :</span> Des interfaces qui permettent à votre application de communiquer avec des services externes, d'obtenir des données ou d'interagir avec des systèmes distants.
+                    Les deux concepts sont essentiels dans le développement d'applications modernes, car ils permettent d'étendre rapidement les fonctionnalités sans avoir à réinventer la roue.
+                </p>
+                <img style="width:300px" src="/devMobile.github.io/images/exo1API-1.png" alt="">
+                <hr class="section">
+
+                <h2>Une carte</h2>
+
+                    <p><span class="gras">react-native-maps</span></p>
+                    <ul>
+                        <li>Allez voir la documentation en ligne</li>
+                        <li>La carte doit être centré sur Marie-Victorin</li>
+                        <li>Ajouter un marqueur avec le logo de Marie-Victorin</li>
+                        <li>Ajouter un rayon de 2km autour du marqueur</li>
+                    </ul>
+                <hr>
+
+                <h2>Camera</h2>
+
+                    <p><span class="gras">expo-camera</span></p>
+                    <ul>
+                        <li>Allez voir la documentation en ligne</li>
+                        <li>Créex une nouvelle page camera</li>
+                        <li>Elle doit permettre de prendre une photo, choisir la camera et retourner à la page précédente</li>
+                        <li>Doit enregistrer localement la photo</li>
+                    </ul>
+                <hr>
+                <h2>Localisation</h2>
+                    <p><span class="gras">expo-location</span></p>
+                    <ul>
+                        <li>Allez voir la documentation en ligne</li>
+                    </ul>
+                <hr>
+                
+                
+            </div>
+        </div>
+        <div w3-include-html="includes/vertNavBar.html"></div> 
+        <div w3-include-html="/devMobile.github.io/includes/footer.html"></div> 
+            
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+    <script> focusOnNavbar("nav-link-api")</script>
+    
+</body>
+</html>
