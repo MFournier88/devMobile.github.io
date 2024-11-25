@@ -1,0 +1,366 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="/devMobile.github.io/plugins/prism.css">
+    <link rel="stylesheet" href="/devMobile.github.io/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <script src="/devMobile.github.io/plugins/prism.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="/devMobile.github.io/scripts/includes.js"></script>
+    <!-- add icon link -->
+    <link rel="icon" href="/devMobile.github.io/images/logo.png" />
+
+    <title>Application Mobile | Cégep Marie-victorin</title>
+</head>
+
+<body>
+
+    <div w3-include-html="/devMobile.github.io/includes/navBar.html"></div>
+    <div class="wrapper">
+        <div class="safe-area-container main-content">
+            <div class="container"> 
+                <h1>Unit Test</h1>
+                <h3>Pourquoi?</h3>
+                <ol>
+                    <li>Plus rapide que des tests fonctionnels à la main</li>
+                    <li>Protège contre la régression</li>
+                    <li>Incite un meilleur découplage du code</li>
+                    <li>Lisibilité et compréhension du code</li>
+                </ol>
+                <h3>Charactéristique d'un bon unit test</h3>
+                <ol>
+                    <li>rapide</li>
+                    <li>isolé</li>
+                    <li>répétable</li>
+                    <li>Autonome</li>
+                    <li>Rapide à coder proportionnellement à ce qu'il test</li>
+                </ol>
+                <h3>Bonnes pratiques</h3>
+                <h4>Nom</h4>
+                <ol>
+                    <li>le nom de ce qui est tester</li>
+                    <li>Le scénario</li>
+                    <li>description de la valeur attendue</li>
+                </ol>
+                <h3>Pattern</h3>
+                <ol>
+                    <li>Arrange</li>
+                    <li>act</li>
+                    <li>Assert</li>
+                </ol>
+                <h3>Pas de valeurs magiques</h3>
+                <p>Tous contributeur devrait pouvoir identifier les valeurs indiquer dans les tests.</p>
+
+                <hr>
+                Pour en savoir plus: <a href="https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices">la source du contenu ci-dessus</a>
+
+
+                
+                <h3 style="padding-top: 30px;">Jest et React Testing Library</h3>
+                <h4>1. <strong>Configuration du Projet pour les Tests avec Jest et React Testing Library</strong></h4>
+                <p>Nous utiliserons <strong>Jest</strong> comme framework de tests et 
+                    <strong>React Testing Library</strong> pour le rendu des composants et la simulation d’interactions utilisateur.
+                </p>
+                <h5>Dépendances nécessaires :</h5>
+                <p>Assurez-vous que les dépendances suivantes sont installées dans votre projet :</p>
+                <ul>
+                    <li><code>jest</code>: Framework de tests</li>
+                    <li><code>@testing-library/react-native</code>: Fournit des utilitaires pour tester React Native
+                        (rendu, événements,
+                        etc.)</li>
+                    <li><code>expo-router</code>: Pour la gestion de la navigation dans les applications Expo</li>
+                    <li><code>axios</code>: Pour les requêtes HTTP, généralement pour les appels API</li>
+                    <li><code>@testing-library/jest-native</code>: Étend Jest pour bien fonctionner avec les tests React
+                        Native</li>
+                    <li><code>jest-mock</code>: Fonctions de simulation pour les tests</li>
+                </ul>
+               <h1>Apprentissage par exemple </h1>
+               <hr>
+               <p>Nous allons tester le fichier index.jsx</p>
+               <pre><code class="language-jsx">
+<!--            -->import { Text, View } from 'react-native'
+<!--            -->import React, { useState, useEffect} from 'react'
+<!--            -->import { useTheme } from '../contexts/ThemeContext'
+<!--            -->import { TouchableOpacity } from 'react-native'
+<!--            -->import { Link, useFocusEffect, useRouter} from 'expo-router'
+<!--            -->import { colorsPalette } from '../assets/colorsPalette'
+<!--            -->import { getIdFromJwt } from '../lib/axios'
+<!--            -->const Index = () => {
+<!--            -->    const { theme } = useTheme()
+<!--            -->    const router = useRouter()
+<!--            -->    const colors = colorsPalette[theme]
+<!--            -->    useFocusEffect(() =&gt; {
+<!--            -->        try{
+<!--            -->            const getId = async () =&gt; {
+<!--            -->                
+<!--            -->                const id = await getIdFromJwt()
+<!--            -->                if(!id){
+<!--            -->                    console.log("no jwt")
+<!--            -->                    return null
+<!--            -->                }
+<!--            -->                router.push(`/${id}/profile`)
+<!--            -->                
+<!--            -->            }
+<!--            -->            getId()
+<!--            -->            
+<!--            -->        }catch(error){
+<!--            -->            console.log(error)
+<!--            -->        }
+<!--            -->    })
+<!--            -->    return (
+<!--            -->        &lt;View className={`flex-1 justify-evenly items-center`} style={{backgroundColor:colors.background_c1}} &gt;
+<!--            -->            &lt;Text className={`text-6xl font-bold tracking-[2px] text-center uppercase`} style={{color:colors.primary}} &gt;ChatMV&lt;/Text&gt;
+<!--            -->            &lt;TouchableOpacity className={`rounded p-6`} style={{backgroundColor:colors.primary}} onPress={() =&gt; { router.push("./auth/signin")}}&gt;
+<!--            -->                &lt;Text className={`text-4xl`} style={{color:colors.lightText}} &gt;Sign-in&lt;/Text&gt;
+<!--            -->            &lt;/TouchableOpacity&gt;
+<!--            -->            &lt;Text class="text-3xl font-bold underline" style={{color:colors.text}}&gt;
+<!--            -->                If you don't already have an account &lt;Link style={{color:colors.link}} href="./auth/signup"&gt;Sign-up&lt;/Link&gt;
+<!--            -->            &lt;/Text&gt;
+<!--            -->        &lt;/View&gt;
+<!--            -->    )
+<!--            -->}
+<!--            -->
+<!--            -->
+<!--            -->export default Index
+               </code></pre>
+                <h2>Step 1 :</h2>
+                <p>Identifier les dépendances externes imprévisibles.</p>
+                <p>Mais il ne faut pas avoir peur! Il faut simplement s'en mock-er!!</p>
+
+                <ul>
+                    <li>useTheme</li>
+                    <li>expo-router</li>
+                    <li>getIdFromJwt</li>
+                </ul>
+                <pre><code class="language-jsx">
+<!--            -->import React from 'react';
+<!--            -->import { render, fireEvent, waitFor } from '@testing-library/react-native';
+<!--            -->import Index from '../app/index.jsx'; // Adjust based on file structure
+<!--            -->import { useRouter } from 'expo-router';
+<!--            -->import { useTheme } from '../contexts/ThemeContext'; // Import the hook that uses the theme context
+<!--            -->import { colorsPalette } from '../assets/colorsPalette';
+<!--            -->
+<!--            -->// Mocking the `useTheme` and `useRouter` hooks
+<!--            -->jest.mock('../contexts/ThemeContext', () => ({
+<!--            -->    useTheme: jest.fn(),
+<!--            -->}));
+<!--            -->
+<!--            -->// Mock `getIdFromJwt` (if it's imported from another file)
+<!--            -->jest.mock('../lib/axios', () => ({
+<!--            -->    getIdFromJwt: jest.fn(),
+<!--            -->}));   
+<!--            -->
+<!--            -->jest.mock('expo-router', () => ({
+<!--            -->    useRouter: jest.fn(),
+<!--            -->    Link: jest.fn(),
+<!--            -->    useFocusEffect: jest.fn((callback) => callback()), // Mock the useFocusEffect to immediately trigger the effect
+<!--            -->}));
+                </code></pre>
+
+
+
+                <h3 id="qu-est-ce-que-jest-fn-">Qu&#39;est-ce que <code>jest.fn()</code> ?</h3>
+                <p><code>jest.fn()</code> est une fonction fournie par Jest qui permet de créer des <strong>mock functions</strong> (fonctions fictives) ou des <strong>espions</strong> sur des fonctions. Cela permet de remplacer une fonction réelle dans vos tests pour simuler son comportement, suivre combien de fois elle a été appelée, avec quels arguments et ce qu&#39;elle a retourné.</p>
+                <h3 id="cas-d-utilisation-de-jest-fn-">Cas d&#39;utilisation de <code>jest.fn()</code> :</h3>
+                <ol>
+                <li><strong>Simuler des fonctions</strong> : Vous pouvez simuler des fonctions appelées dans un composant, comme des callbacks, des gestionnaires d&#39;événements ou toute autre fonction dépendante de l&#39;extérieur.</li>
+                <li><strong>Suivre les appels</strong> : <code>jest.fn()</code> permet de suivre combien de fois une fonction a été appelée, avec quels arguments et quelle valeur elle a retournée.</li>
+                <li><strong>Fournir des implémentations personnalisées</strong> : Vous pouvez définir le comportement d&#39;une fonction fictive en spécifiant des valeurs de retour, des erreurs à lancer, etc.</li>
+                </ol>
+                <h3 id="syntaxe-de-base">Syntaxe de base</h3>
+                <pre><code class="lang-javascript"><span class="hljs-attribute">const maFonctionMock</span> = jest.fn();
+                </code></pre>
+                <p>Cela crée une nouvelle fonction fictive (mock function). Vous pouvez maintenant utiliser <code>maFonctionMock</code> pour simuler un comportement de fonction que vous appelez normalement dans votre code.</p>
+                <h3 id="cas-d-utilisation-fr-quents-">Cas d&#39;utilisation fréquents :</h3>
+                <h4 id="1-simuler-une-fonction-">1. <strong>Simuler une fonction</strong> :</h4>
+                <p>Supposons que vous ayez une fonction <code>fetchData</code> qui fait une requête API, et que vous souhaitiez tester un composant sans réellement appeler l&#39;API.</p>
+                <pre><code class="lang-javascript"><span class="hljs-keyword">
+import</span> { fetchData } <span class="hljs-keyword">from</span> <span class="hljs-string">'./api'</span>;
+
+jest.mock(<span class="hljs-string">'./api'</span>,() => ({fetchData: jest.fn()})); <span class="hljs-comment">// Cela va simuler toutes les fonctions du fichier `api.js`</span>
+
+fetchData.mockResolvedValue({ data: <span class="hljs-string">'test'</span> }); <span class="hljs-comment">// Simule la valeur de retour de la fonction</span>
+
+<span class="hljs-comment">// Maintenant, dans votre test, vous pouvez contrôler le comportement de `fetchData` comme vous le souhaitez.</span>
+                </code></pre>
+                <h4 id="2-espionner-les-appels-d-une-fonction-">2. <strong>Espionner les appels d&#39;une fonction</strong> :</h4>
+                <p>Si vous voulez voir combien de fois une fonction a été appelée (par exemple, combien de fois un bouton a été pressé), vous pouvez espionner une fonction avec <code>jest.fn()</code>.</p>
+                <pre><code class="lang-javascript"><span class="hljs-keyword">
+const</span> maFonctionMock = jest.<span class="hljs-keyword">fn</span>();
+
+<span class="hljs-comment">// Appel de la fonction fictive</span>
+maFonctionMock(<span class="hljs-symbol">'Bonjour</span>', <span class="hljs-number">42</span>);
+
+expect(maFonctionMock).toHaveBeenCalled(); <span class="hljs-comment">// Vérifie que la fonction a été appelée au moins une fois</span>
+expect(maFonctionMock).toHaveBeenCalledWith(<span class="hljs-symbol">'Bonjour</span>', <span class="hljs-number">42</span>); <span class="hljs-comment">// Vérifie que la fonction a été appelée avec des arguments spécifiques</span>
+expect(maFonctionMock).toHaveBeenCalledTimes(<span class="hljs-number">1</span>); <span class="hljs-comment">// Vérifie que la fonction a été appelée une seule fois</span>
+                </code></pre>
+                <h4 id="3-retourner-des-valeurs-personnalis-es-">3. <strong>Retourner des valeurs personnalisées</strong> :</h4>
+                <p>Vous pouvez aussi définir une fonction fictive qui retourne une valeur spécifique ou lance une erreur lorsque vous l&#39;appelez.</p>
+                <pre><code class="lang-javascript"><span class="hljs-keyword">
+const</span> maFonctionMock = jest.fn().mockReturnValue(<span class="hljs-string">'Bonjour le monde !'</span>);
+
+<span class="hljs-built_in">console</span>.log(maFonctionMock()); <span class="hljs-comment">// Affiche : 'Bonjour le monde !'</span>
+
+<span class="hljs-keyword">const</span> maFonctionErreur = jest.fn().mockRejectedValue(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'Quelque chose a mal tourné'</span>));
+
+maFonctionErreur().catch(<span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> <span class="hljs-built_in">console</span>.log(e.message)); <span class="hljs-comment">// Affiche : 'Quelque chose a mal tourné'</span>
+                </code></pre>
+                <h4 id="4-simuler-un-module-entier-">4. <strong>Simuler un module entier</strong> :</h4>
+                <p>Vous pouvez simuler un module entier en utilisant <code>jest.mock()</code>. Voici comment simuler une requête API qui retourne des données.</p>
+                <pre><code class="lang-javascript">
+<span class="hljs-comment">// fichier : api.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> fetchData = <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">'/data'</span>);
+    <span class="hljs-keyword">return</span> response.json();
+};
+
+<span class="hljs-comment">// fichier de test</span>
+<span class="hljs-keyword">import</span> { fetchData } from <span class="hljs-string">'./api'</span>;
+
+jest.mock(<span class="hljs-string">'./api'</span>,() => ({fetchData: jest.fn()})); <span class="hljs-comment">// Simule tout le module api</span>
+
+fetchData.mockResolvedValue({ data: <span class="hljs-string">'Test de données'</span> }); <span class="hljs-comment">// Simule la valeur retournée par fetchData</span>
+
+it(<span class="hljs-string">'teste la fonction fetchData'</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> fetchData();
+    expect(result.data).toBe(<span class="hljs-string">'Test de données'</span>);
+});
+                </code></pre>
+                
+
+                <h3>describe/it/expect</h3>
+                <pre><code class="language-jsx">
+<!--            -->describe("dummy",()=&gt;{
+<!--            -->    it('lol', () =&gt; {
+<!--            -->        expect(1).toBe(1)
+<!--            -->    })
+<!--            -->})
+                </code></pre>
+                <ul>
+                    <li>describe: Défini une suite de tests</li>
+                    <li>it : défini un test</li>
+                    <li>expect :  object permettant des vérifications qui fonctionne similairement à un assert</li>
+                </ul>
+                <p>N'oubliez pas de nettoyer les mocks entre les tests</p>
+                <pre><code class="language-jsx">
+<!--            -->beforeEach(() =&gt; {
+<!--            -->  jest.clearAllMocks();
+<!--            -->  useRouter.mockReturnValue(mockRouter);
+<!--            -->});
+
+                </code></pre>
+                <h4 id="5-r-initialiser-les-mocks-">5. <strong>Réinitialiser les mocks</strong> :</h4>
+                <p>Vous pouvez réinitialiser les fonctions fictives entre les tests pour garantir que les tests ne s&#39;influencent pas mutuellement.</p>
+                <pre><code class="lang-javascript">
+beforeEach(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    jest.clearAllMocks(); <span class="hljs-regexp">//</span> Réinitialise tous les mocks avant chaque test
+});
+                </code></pre>
+
+                <pre><code class="language-jsx">
+<!--            -->describe('Index Component', () =&gt; {
+<!--            -->    const mockRouter = { push: jest.fn() };
+<!--            -->    
+<!--            -->    beforeEach(() =&gt; {
+<!--            -->        jest.clearAllMocks();
+<!--            -->    
+<!--            -->        useRouter.mockReturnValue(mockRouter);
+<!--            -->        useTheme.mockReturnValue({ theme: 'light' });
+<!--            -->    
+<!--            -->    });
+<!--            -->    
+<!--            -->    afterEach(() =&gt; {
+<!--            -->    });
+<!--            -->    
+<!--            -->    it('renders correctly with mocked theme, displays ChatMV', () =&gt; {
+<!--            -->        // Mock the theme context to return a specific theme
+<!--            -->    
+<!--            -->        const { getByText } = render(&lt;Index /&gt;);
+<!--            -->    
+<!--            -->        // Check if the text "ChatMV" is rendered with correct style based on the theme
+<!--            -->        expect(getByText('ChatMV')).toBeTruthy();
+<!--            -->    });
+<!--            -->})
+                </code></pre>
+                </p>
+                <h4 id="6-concepts-de-test-utilis-s-">6. <strong>Concepts de Test Utilisés</strong></h4>
+                <ul>
+                    <li><strong><code>render</code></strong> : Cette fonction est utilisée pour rendre le composant et
+                        renvoyer des
+                        requêtes comme <code>getByText</code>, <code>getByPlaceholderText</code>, utilisées ensuite pour
+                        interagir avec
+                        le composant.</li>
+                    <li><strong><code>fireEvent</code></strong> : Simule des actions utilisateur (par exemple, appuyer
+                        sur des boutons,
+                        entrer du texte).</li>
+                    <li><strong><code>waitFor</code></strong> : Utilisé pour tester des opérations asynchrones. Dans ce
+                        cas, il est
+                        utilisé pour attendre que la navigation se produise ou qu&#39;un message d&#39;erreur apparaisse
+                        après des
+                        actions asynchrones.</li>
+                </ul>
+
+<pre><code class="language-jsx">
+it('handles navigation -  when button is pressed - goes to /auth/signin', async () => {
+
+    const { getByText } = render(<Index />);
+
+    fireEvent.press(getByText('Sign-in'));
+
+    await waitFor(() => {
+        // Ensure the router.push was called after pressing the button
+        expect(mockRouter.push).toHaveBeenCalledWith("./auth/signin");
+    });
+});
+</code></pre>
+<p><strong>Faites maintenant les tests pour vérifier si l'application réagi correctement avec ou sans jwt</strong>
+
+                <h4 id="7-bonnes-pratiques-pour-les-tests-">7. <strong>Bonnes Pratiques pour les Tests</strong></h4>
+                <ul>
+                    <li><strong>Isolation</strong> : Simulez les dépendances externes comme les requêtes réseau et la
+                        navigation pour
+                        isoler le comportement du composant testé.</li>
+                    <li><strong>Couverture</strong> : Testez à la fois les cas positifs et négatifs, tels que le rendu,
+                        la validation,
+                        les appels API réussis et échoués.</li>
+                    <li><strong>Nettoyage</strong> : Utilisez <code>jest.clearAllMocks()</code> pour réinitialiser les
+                        simulations entre
+                        les tests afin de garantir qu&#39;il n&#39;y a pas de fuite de données entre les cas de tests.
+                    </li>
+                </ul>
+                <h3 id="8-ex-cution-des-tests-">8. <strong>Exécution des Tests</strong></h3>
+                <p>Pour exécuter vos tests, utilisez la commande suivante :</p>
+                <pre><code class="lang-bash">npm <span class="hljs-built_in">test</span>
+</code></pre>
+                <p>Cela invoque Jest et lance tous les tests dans votre projet. Assurez-vous que Jest est configuré dans
+                    votre fichier
+                    <code>package.json</code> ou via un fichier de configuration Jest.
+                </p>
+                
+            </div>
+
+        </div>
+        <div w3-include-html="includes/vertNavBar.html"></div>
+        <div w3-include-html="/devMobile.github.io/includes/footer.html"></div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="/devMobile.github.io/scripts/main.js"></script>
+
+</body>
+
+</html>
